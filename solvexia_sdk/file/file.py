@@ -3,6 +3,9 @@
 import requests
 import json
 import sys
+import math
+import os
+from fsplit.filesplit import Filesplit
 
 class file:
     def __init__(self, authorisation, fileId):
@@ -60,12 +63,29 @@ class file:
         self.uploadSessionId = response.json()['uploadSessionId']
         self.chunkId = 1
 
-    def uploadChunk(self, uploadSessionId, chunkId):
+    def uploadChunk(self, chunkSize, file):
         # TO DO
+        fileSize = os.stat(file).st_size
+        numOfChunks = math.ceil(fileSize/chunkSize)
 
-    def commitChunkUpload(self):
-        commitChunkUrl = self.baseUrl + f"{self.fileId}/uploadsessions/{self.uploadSessionId}/commit"
-        response = requests.post(commitChunkUrl, headers=self.authorisation)
+        fs = FileSplit(file=file, fileSize=chunkSize)
+        fs.split()
+        filename = os.path.basename(file)
+        fileExtension = os.path.splitext(file)[1]
+
+        while self.chunkId <= numOfChunks:
+            uploadChunkUrl = self.baseUrl + f"{self.fileId}/uploadsessions/{self.uploadSessionId}/chunks/{self.chunkId}"
+            with open(file + f"_{chunkId}{fileExtension}", 'rb') as f:
+                response = requests.post(uploadChunkUrl, files={file: f})
+            if response.status_code() != 200:
+                print("Error spliting and uploading file chunk")
+                sys.exit()
+            self.chunkId = self.chunkId + 1
+        
+
+    def commitUpload(self):
+        commitUrl = self.baseUrl + f"{self.fileId}/uploadsessions/{self.uploadSessionId}/commit"
+        response = requests.post(commitUrl, headers=self.authorisation)
         if response.status_code != 200:
             print("Error committing chunk upload")
             sys.exit()
