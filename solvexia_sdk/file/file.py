@@ -38,7 +38,7 @@ class file:
     # TO DO
         uploadFileUrl = self.baseUrl + fileId
         with open(file, 'rb') as f:
-            response = requests.post(uploadFileUrl, files={file: f})
+            response = requests.post(uploadFileUrl, files={file: f}), headers=self.authorisation
         if response.status_code != 200:
             print("Error uploading file")
             sys.exit()
@@ -76,7 +76,7 @@ class file:
         while self.chunkId <= numOfChunks:
             uploadChunkUrl = self.baseUrl + f"{self.fileId}/uploadsessions/{self.uploadSessionId}/chunks/{self.chunkId}"
             with open(file + f"_{chunkId}{fileExtension}", 'rb') as f:
-                response = requests.post(uploadChunkUrl, files={file: f})
+                response = requests.post(uploadChunkUrl, files={file: f}, headers=self.authorisation)
             if response.status_code() != 200:
                 print("Error spliting and uploading file chunk")
                 sys.exit()
