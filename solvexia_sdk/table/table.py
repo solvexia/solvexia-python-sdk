@@ -14,7 +14,7 @@ class table:
     def getTable(self):
         getTableUrl = self.baseUrl + f"/{self.tableId}"
         response = requests.get(getTableUrl, headers=self.authorisation)
-        helper.statusCodeCheck(response.status_code, "Error getting table")
+        helper.statusCodeCheck(response, "Error getting table")
 
         return response.json()
 
@@ -26,7 +26,7 @@ class table:
             'description': description
         }
         response = requests.post(self.baseUrl, headers=headers, data=json.dumps(payload))
-        helper.statusCodeCheck(response.status_code, "Error creating table")
+        helper.statusCodeCheck(response, "Error creating table")
 
         return response.json()
 
@@ -39,14 +39,14 @@ class table:
             'description': description
         }
         response = requests.post(updateTableUrl, headers=headers, data=json.dumps(payload))
-        helper.statusCodeCheck(response.status_code, "Error creating table")
+        helper.statusCodeCheck(response, "Error creating table")
 
         return response.json()
 
     def getTableColumns(self):
         getTableColumnsUrl = self.baseUrl + f"/{self.tableId}/columns"
         response = requests.get(getTableColumnsUrl, headers=self.authorisation)
-        helper.statusCodeCheck(response.status_code, "Error getting table columns")
+        helper.statusCodeCheck(response, "Error getting table columns")
         return response.json()
 
     def createColumn(self, columnInstance):
@@ -54,7 +54,7 @@ class table:
         headers = self.authorisation
         headers['Content-Type'] = 'application/json'
         response = requests.post(createColumnUrl, headers=headers, data=json.dumps(columnInstance))
-        helper.statusCodeCheck(response.status_code, "Error creating column")
+        helper.statusCodeCheck(response, "Error creating column")
         return response.json()
 
     def updateColumn(self, columnInstance, columnName):
@@ -62,11 +62,11 @@ class table:
         headers = self.authorisation
         headers['Content-Type']= 'application/json'
         response = requests.post(updateColumnUrl, headers=headers, data=json.dumps(columnInstance))
-        helper.statusCodeCheck(response.status_code, "Error updating column")
+        helper.statusCodeCheck(response, "Error updating column")
         return response.json()
 
     def deleteColumn(self, columnName):
         deleteColumnUrl = self.baseUrl + f"/{self.tableId}/columns/{columnName}"
         response = requests.delete(deleteColumnUrl, headers=self.authorisation)
-        helper.statusCodeCheck(response.status_code, "Error deleting column")
+        helper.statusCodeCheck(response, "Error deleting column")
         return response.json()
