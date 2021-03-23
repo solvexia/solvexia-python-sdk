@@ -6,6 +6,7 @@ import sys
 import math
 import os
 from fsplit.filesplit import Filesplit
+from solvexia_sdk import helper
 
 class file:
     def __init__(self, authorisation, fileId):
@@ -16,9 +17,7 @@ class file:
     def fileMetadata(self):
         metadataUrl = self.baseUrl + f"{self._fileId}/metadata"
         response = requests.get(metadataUrl, headers=self.authorisation)
-        if response.status_code() != 200:
-            print("Error getting meta data for file")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error getting metadata for file")
         return response.json()
 
     def updateMetadata(self, name):
@@ -29,9 +28,7 @@ class file:
         headers = self.authorisation
         headers['Content-Type'] = 'application/json'
         response = requests.post(metadataUrl, data=json.dumps(payload), headers=headers)
-        if response.status_code != 200:
-            print("Error updating file metadata")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error updating file metadata")
         return response.json()
 
     def uploadFile(self, file):
@@ -39,9 +36,7 @@ class file:
         uploadFileUrl = self.baseUrl + fileId
         with open(file, 'rb') as f:
             response = requests.post(uploadFileUrl, files={file: f}), headers=self.authorisation
-        if response.status_code != 200:
-            print("Error uploading file")
-            sys.exit()
+            helper.statusCodeCheck(response.status_code, "Error uploading file")
         return response.json()
 
     def downloadFile(self):
@@ -49,17 +44,13 @@ class file:
         headers = self.authorisation
         headers['Content-Type'] = 'application/octet-stream'
         response = requests.get(downloadFileUrl, headers=headers)
-        if response.status_code != 200:
-            print("Error downloading file")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error downloading file")
         return response
 
     def startChunkSession(self):
         startChunkUrl = self.baseUrl + f"{fileId}/uploadsessions"
         response = response.post(startChunkUrl, headers=self.authorisation)
-        if response.status_code != 200:
-            print("Error starting chunk session")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error starting chunk session")
         self.uploadSessionId = response.json()['uploadSessionId']
         self.chunkId = 1
 
@@ -77,16 +68,12 @@ class file:
             uploadChunkUrl = self.baseUrl + f"{self.fileId}/uploadsessions/{self.uploadSessionId}/chunks/{self.chunkId}"
             with open(file + f"_{chunkId}{fileExtension}", 'rb') as f:
                 response = requests.post(uploadChunkUrl, files={file: f}, headers=self.authorisation)
-            if response.status_code() != 200:
-                print("Error spliting and uploading file chunk")
-                sys.exit()
+            helper.statusCodeCheck(response.status_code, "Error spliting and uploading file chunk")
             self.chunkId = self.chunkId + 1
         
 
     def commitUpload(self):
         commitUrl = self.baseUrl + f"{self.fileId}/uploadsessions/{self.uploadSessionId}/commit"
         response = requests.post(commitUrl, headers=self.authorisation)
-        if response.status_code != 200:
-            print("Error committing chunk upload")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error committing chunk upload")
         return response.json()

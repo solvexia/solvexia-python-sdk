@@ -3,6 +3,7 @@
 import requests
 import json
 import sys
+from solvexia_sdk import helper
 
 class table:
     def __init__(self, authorisation, tableId):
@@ -13,10 +14,7 @@ class table:
     def getTable(self):
         getTableUrl = self.baseUrl + f"/{self.tableId}"
         response = requests.get(getTableUrl, headers=self.authorisation)
-
-        if response.status_code() != 200:
-            print("Error getting table")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error getting table")
 
         return response.json()
 
@@ -28,9 +26,7 @@ class table:
             'description': description
         }
         response = requests.post(self.baseUrl, headers=headers, data=json.dumps(payload))
-        if response.status_code() != 200:
-            print("Error creating table")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error creating table")
 
         return response.json()
 
@@ -43,18 +39,14 @@ class table:
             'description': description
         }
         response = requests.post(updateTableUrl, headers=headers, data=json.dumps(payload))
-        if response.status_code() != 200:
-            print("Error creating table")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error creating table")
 
         return response.json()
 
     def getTableColumns(self):
         getTableColumnsUrl = self.baseUrl + f"/{self.tableId}/columns"
         response = requests.get(getTableColumnsUrl, headers=self.authorisation)
-        if response.status_code() != 200:
-            print("Error getting table columns")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error getting table columns")
         return response.json()
 
     def createColumn(self, columnInstance):
@@ -62,9 +54,7 @@ class table:
         headers = self.authorisation
         headers['Content-Type'] = 'application/json'
         response = requests.post(createColumnUrl, headers=headers, data=json.dumps(columnInstance))
-        if response.status_code() != 200:
-            print("Error creating column")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error creating column")
         return response.json()
 
     def updateColumn(self, columnInstance, columnName):
@@ -72,15 +62,11 @@ class table:
         headers = self.authorisation
         headers['Content-Type']= 'application/json'
         response = requests.post(updateColumnUrl, headers=headers, data=json.dumps(columnInstance))
-        if response.status_code() != 200:
-            print("Error updating column")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error updating column")
         return response.json()
 
     def deleteColumn(self, columnName):
         deleteColumnUrl = self.baseUrl + f"/{self.tableId}/columns/{columnName}"
         response = requests.delete(deleteColumnUrl, headers=self.authorisation)
-        if response.status_code() != 200:
-            print("Error deleting column")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error deleting column")
         return response.json()

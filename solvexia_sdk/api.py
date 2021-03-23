@@ -3,6 +3,7 @@
 import requests
 import json
 import sys
+from helper import statusCodeCheck
 
 class solvexia_client: 
     def __init__(self, clientId, clientSecret, env):
@@ -17,9 +18,7 @@ class solvexia_client:
             'grant_type': 'client_credentials'
         }
         response = requests.post(f"https://{self.env}.solvexia.com/oauth/token", data=payload)
-        if response.status_code != 200:
-            print("Error with generating an Access Token via Client Credential Flow")
-            sys.exit()
+        statusCodeCheck(response.status_code, "Error with generating an Access Token via Client Credential Flow")
         self.accessToken = response.json()['access_token']
         self.authorisation = {'Authorization': 'Bearer ' + self._accesstoken}
         

@@ -2,6 +2,7 @@
 import requests
 import json
 import sys
+from solvexia_sdk import helper
 
 class process:
     def __init__(self, authorisation, processId);
@@ -11,39 +12,29 @@ class process:
     
     def processList(self):
         response = requests.get(self.baseUrl, headers=self.authorisation)
-        if response.status_code != 200:
-            print("Error getting process list")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error getting process list")
         return response.json()
     
     def getProcess(self):
         getProcessUrl = self.baseUrl + f'/{self.processId}'
         response = requests.get(getProcessUrl, headers=self.authorisation)
-        if response.status_code != 200:
-            print("Error getting chosen process")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error getting chosen process")
         return response.json()
 
     def createProcessRun(self):
         createProcessRunUrl = self.baseUrl + f"/{self.processID}/processruns"
         response = requests.post(createProcessRunUrl, headers=self.authorisation)
-        if response.status_code != 200:
-            print("Error creating process run")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error creating process run")
         return response.json()
 
     def processRunList(self):
         processRunUrl = self.baseUrl + f"/{self.processID}/processruns"
         response = requests.get(processRunUrl, headers=self.authorisation)
-        if response.status_code != 200:
-            print("Error getting process run list")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error getting run list")
         return response.json()
     
     def processDataStepList(self):
         processDataStepUrl = self.baseUrl + f"/{self.processID}/steps"
         response = requests.get(processDataStepUrl, headers=self.authorisation)
-        if response.status_code != 200:
-            print("Error getting data step list")
-            sys.exit()
+        helper.statusCodeCheck(response.status_code, "Error getting data step list")
         return response.json()
