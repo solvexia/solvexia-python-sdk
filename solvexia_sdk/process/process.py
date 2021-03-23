@@ -10,7 +10,7 @@ class process:
         self.processId = processId
         self.baseUrl = "https:///app.solvexia.com/api/v1/processes"
     
-    def processList(self):
+    def getProcessList(self):
         response = requests.get(self.baseUrl, headers=self.authorisation)
         helper.statusCodeCheck(response, "Error getting process list")
         return response.json()
@@ -27,13 +27,13 @@ class process:
         helper.statusCodeCheck(response, "Error creating process run")
         return response.json()
 
-    def processRunList(self):
+    def getProcessRunList(self):
         processRunUrl = self.baseUrl + f"/{self.processID}/processruns"
         response = requests.get(processRunUrl, headers=self.authorisation)
         helper.statusCodeCheck(response, "Error getting run list")
         return response.json()
     
-    def processDataStepList(self):
+    def getProcessDataStepList(self):
         processDataStepUrl = self.baseUrl + f"/{self.processID}/steps"
         response = requests.get(processDataStepUrl, headers=self.authorisation)
         helper.statusCodeCheck(response, "Error getting data step list")

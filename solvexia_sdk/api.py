@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import requests
 import json
 import sys
@@ -11,7 +10,7 @@ class solvexia_client:
         self.clientSecret = clientSecret
         self.env = env
 
-    def acquireAccessToken(self):
+    def getAccessToken(self):
         payload = {
             'client_id': self.clientId,
             'client_secret': self.clientSecret,

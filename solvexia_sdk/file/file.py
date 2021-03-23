@@ -14,7 +14,7 @@ class file:
         self.fileId = fileId
         self.baseUrl = "https:///app.solvexia.com/api/v1/files/"
 
-    def fileMetadata(self):
+    def getFileMetadata(self):
         metadataUrl = self.baseUrl + f"{self._fileId}/metadata"
         response = requests.get(metadataUrl, headers=self.authorisation)
         helper.statusCodeCheck(response, "Error getting metadata for file")
@@ -77,3 +77,8 @@ class file:
         response = requests.post(commitUrl, headers=self.authorisation)
         helper.statusCodeCheck(response, "Error committing chunk upload")
         return response.json()
+
+    def uploadFileByChunks(self, chunkSize, file)
+        startChunkSession(self)
+        uploadChunk(self, chunkSize, file)
+        commitUpload(self)

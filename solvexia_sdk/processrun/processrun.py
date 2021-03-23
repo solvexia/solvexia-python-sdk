@@ -41,13 +41,13 @@ class processruns:
         helper.statusCodeCheck(response, "Error cancelling process run")
         return response.json()
 
-    def processStatus(self):
+    def getProcessStatus(self):
         processStatusUrl = self.baseUrl + f"processruns/{self.processRunId}/runstatus"
         response = requests.get(processStatusUrl, headers=self.authorisation)
         helper.statusCodeCheck(response, "Error getting run status of a process run")
         return response.json()
 
-    def processRunDataSteps(self):
+    def getProcessRunDataSteps(self):
         processDataStepsUrl = self.baseUrl + f"processruns/{self.processRunId}/steps"
         response = requests.get(processDataStepsUrl, headers=self.authorisation)
         helper.statusCodeCheck(response, "Error getting list of data steps")
