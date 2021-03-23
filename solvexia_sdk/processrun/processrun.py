@@ -1,58 +1,62 @@
 #!/usr/bin/env python
 
-class processruns:
-    def __init__self(self, authorisation, processRunId);
-        self._authorisation = authorisation
-        self._processRunId = processRunId
-        self._baseurl = "https:///app.solvexia.com/api/v1/"
+import requests
+import json
+import sys
 
-    def get_process_run(self):
-        get_process_run_url = self._baseurl + f'processruns/{self._processRunId}'
-        response = requests.get(get_process_run_url, headers=self._authorisation)
+class processruns:
+    def __init__(self, authorisation, processRunId);
+        self.authorisation = authorisation
+        self.processRunId = processRunId
+        self.baseUrl = "https:///app.solvexia.com/api/v1/"
+
+    def getProcessRun(self):
+        getProcessRunUrl = self.baseUrl + f"processruns/{self.processRunId}"
+        response = requests.get(getProcessRunUrl, headers=self.authorisation)
         if response.status_code != 200:
             print("Error getting the specified process run")
             sys.exit()
         return response.json()
     
-    def start_process_run(self):
-        start_process_run_url = self.baseurl + 'requests'
+    def startProcessRun(self):
+        startProcessRunUrl = self.baseUrl + "requests"
         payload = {
             'request': 'ProcessRun_StartRq',
-            'processRunId': self._processRunId
+            'processRunId': self.processRunId
         }
-        headers = self._authorisation
+        headers = self.authorisation
         headers['Content-Type'] = 'application/json'
-        response = requests.post(start_process_run_url, data=json.dumps(payload), headers=headers)
+        response = requests.post(startProcessRunUrl, data=json.dumps(payload), headers=headers)
         if response.status_code != 200:
             print("Error starting process run")
             sys.exit()
         return response.json()
 
-    def cancel_process_run(self):
-        cancel_process_run_url = start_process_run_url = self.baseurl + 'requests'
+    def cancelProcessRun(self):
+        cancelProcessRunUrl = self.baseUrl + "requests"
         payload = {
             'request': 'ProcessRun_CancelRq',
-            'processRunId': self._processRunId
+            'processRunId': self.processRunId
         }
-        headers = self._authorisation
+        headers = self.authorisation
         headers['Content-Type'] = 'application/json'
-        response = requests.post(cancel_process_run_url, data=json.dumps(payload), headers=headers)
+        response = requests.post(cancelProcessRunUrl, data=json.dumps(payload), headers=headers)
         if response.status_code() != 200:
             print("Error cancelling process run")
             sys.exit()
         return response.json()
 
-    def process_status(self):
-        process_status_url = self._baseurl + f'processruns/{self._processRunId}/runstatus'
-        response = requests.get(process_status_url, headers=self._authorisation)
+    def processStatus(self):
+        processStatusUrl = self.baseUrl + f"processruns/{self.processRunId}/runstatus"
+        response = requests.get(processStatusUrl, headers=self.authorisation)
         if response.status_code != 200:
             print("Error getting run status of a process run")
             sys.exit()
         return response.json()
 
-    def process_run_data_steps(self):
-        process_date_steps_url = self._baseurl + f'processruns/{self._processRunId}/steps'
-        response = requests.get(process_date_steps_url, headers=self._authorisation)
+    def processRunDataSteps(self):
+        processDataStepsUrl = self.baseUrl + f"processruns/{self.processRunId}/steps"
+        response = requests.get(processDataStepsUrl, headers=self.authorisation)
         if response.status_code != 200:
             print("Error getting list of data steps")
             sys.exit()
