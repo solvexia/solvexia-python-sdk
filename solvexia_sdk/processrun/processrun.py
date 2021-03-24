@@ -11,8 +11,7 @@ class processruns:
         self.baseUrl = "https:///app.solvexia.com/api/v1/"
 
     def getProcessRun(self):
-        getProcessRunUrl = self.baseUrl + f"processruns/{self.processRunId}"
-        response = requests.get(getProcessRunUrl, headers=self.authorisation)
+        response = api.apiGet(f"processruns/{self.processRunId}")
         api.statusCodeCheck(response, "Error getting the specified process run")
         return response.json()
     
@@ -35,13 +34,11 @@ class processruns:
         return response.json()
 
     def getProcessStatus(self):
-        processStatusUrl = self.baseUrl + f"processruns/{self.processRunId}/runstatus"
-        response = requests.get(processStatusUrl, headers=self.authorisation)
+        response = api.apiGet(f"processruns/{self.processRunId}/runstatus")
         api.statusCodeCheck(response, "Error getting run status of a process run")
         return response.json()
 
     def getProcessRunDataSteps(self):
-        processDataStepsUrl = self.baseUrl + f"processruns/{self.processRunId}/steps"
-        response = requests.get(processDataStepsUrl, headers=self.authorisation)
+        response = api.apiGet(f"processruns/{self.processRunId}/steps")
         api.statusCodeCheck(response, "Error getting list of data steps")
         return response.json()

@@ -11,8 +11,7 @@ class table:
         self.baseUrl = "https://app.solvexia.com/api/v1/tables"
 
     def getTable(self):
-        getTableUrl = self.baseUrl + f"/{self.tableId}"
-        response = requests.get(getTableUrl, headers=self.authorisation)
+        response = api.apiGet(f"tables/{self.tableId}")
         api.statusCodeCheck(response, "Error getting table")
 
         return response.json()
@@ -38,8 +37,7 @@ class table:
         return response.json()
 
     def getTableColumns(self):
-        getTableColumnsUrl = self.baseUrl + f"/{self.tableId}/columns"
-        response = requests.get(getTableColumnsUrl, headers=self.authorisation)
+        response = api.apiGet(f"tables/{self.tableId}/columns")
         api.statusCodeCheck(response, "Error getting table columns")
         return response.json()
 

@@ -14,8 +14,7 @@ class file:
         self.baseUrl = "https:///app.solvexia.com/api/v1/files/"
 
     def getFileMetadata(self):
-        metadataUrl = self.baseUrl + f"{self._fileId}/metadata"
-        response = requests.get(metadataUrl, headers=self.authorisation)
+        response = api.apiGet(f"files/{self/fileId}/metadata")
         api.statusCodeCheck(response, "Error getting metadata for file")
         return response.json()
 

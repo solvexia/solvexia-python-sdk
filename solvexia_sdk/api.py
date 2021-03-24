@@ -4,13 +4,13 @@ import json
 import sys
 
 access_token = {}
-baseUrl = f"https:///{env}.solvexia.com/api/v1/"
 
 class solvexia_client: 
     def __init__(self, clientId, clientSecret, env):
         self.clientIdd = clientId
         self.clientSecret = clientSecret
         self.env = env
+        global baseUrl = f"https:///{env}.solvexia.com/api/v1/"
 
     def getAccessToken(self):
         payload = {
@@ -40,3 +40,6 @@ def apiPost(urlPath, payload):
 
 def apiPostNoPayload(urlPath):
     return response = requests.post(baseUrl + urlPath, headers=access_token)
+
+def apiGet(urlPath):
+    return response = requests.get(baseUrl + urlPath, headers=access_token)
