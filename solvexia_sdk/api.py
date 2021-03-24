@@ -2,7 +2,9 @@
 import requests
 import json
 import sys
-from helper import statusCodeCheck
+
+access_token = {}
+baseUrl = f"https:///{env}.solvexia.com/api/v1/"
 
 class solvexia_client: 
     def __init__(self, clientId, clientSecret, env):
@@ -23,4 +25,18 @@ class solvexia_client:
         self.accessToken = response.json()['access_token']
         self.authorisation = {'Authorization': 'Bearer ' + self.accesstoken}
         
-        return self.authorisation
+        global access_token = self.authorisation
+
+def statusCodeCheck(response, errorMessage):
+if response.status_code != 200:
+    print(errorMessage)
+    print(response.json().message)
+    sys.exit()
+
+def apiPost(urlPath, payload):
+    headers = access_token
+    headers['Content-Type'] = 'application/json'
+    return response = requests.post(baseUrl + urlPath, data=json.dumps(payload), headers=headers)}
+
+def apiPostNoPayload(urlPath):
+    return response = requests.post(baseUrl + urlPath, headers=access_token)
