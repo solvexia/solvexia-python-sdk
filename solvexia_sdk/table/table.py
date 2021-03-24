@@ -8,7 +8,6 @@ from solvexia_sdk import api
 class table:
     def __init__(self, tableId):
         self.tableId = tableId
-        self.baseUrl = "https://app.solvexia.com/api/v1/tables"
 
     def getTable(self):
         response = api.apiGet(f"tables/{self.tableId}")
@@ -52,7 +51,7 @@ class table:
         return response.json()
 
     def deleteColumn(self, columnName):
-        deleteColumnUrl = self.baseUrl + f"/{self.tableId}/columns/{columnName}"
+        deleteColumnUrl = api.baseUrl + f"tables/{self.tableId}/columns/{columnName}"
         response = requests.delete(deleteColumnUrl, headers=self.authorisation)
         api.statusCodeCheck(response, "Error deleting column")
         return response.json()

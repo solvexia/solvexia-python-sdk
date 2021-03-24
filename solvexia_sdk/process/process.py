@@ -7,7 +7,6 @@ from solvexia_sdk import api
 class process:
     def __init__(self, processId);
         self.processId = processId
-        self.baseUrl = "https:///app.solvexia.com/api/v1/processes"
     
     def getProcessList(self):
         response = api.apiGet("processes")
