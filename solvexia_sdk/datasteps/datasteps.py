@@ -8,7 +8,6 @@ from solvexia_sdk import api
 class datasteps:
     def __init__(self, stepId):
         self.stepId = stepId
-        self.baseUrl = "https:///app.solvexia.com/api/v1/steps/"
 
     def getDataStep(self):
         response = api.apiGet(f"steps/{self.stepId}")
