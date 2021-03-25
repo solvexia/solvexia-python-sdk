@@ -25,6 +25,6 @@ class datasteps:
         return response.json()
 
     def updateDataStepProperty(self, propertyId, dataStepInstance):
-        response = api.apiPost(f"steps/{self.stepId}/properties/{proertyId}", dataStepInstance)
+        response = api.apiPost(f"steps/{self.stepId}/properties/{propertyId}", dataStepInstance)
         api.statusCodeCheck(response, "Error updating data step property")
         return response.json()

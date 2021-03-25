@@ -13,7 +13,7 @@ class file:
         self.fileId = fileId
 
     def getFileMetadata(self):
-        response = api.apiGet(f"files/{self/fileId}/metadata")
+        response = api.apiGet(f"files/{self.fileId}/metadata")
         api.statusCodeCheck(response, "Error getting metadata for file")
         return response.json()
 
@@ -29,7 +29,7 @@ class file:
     # TO DO
         uploadFileUrl = api.baseUrl + f"files/{self.fileId}"
         with open(file, 'rb') as f:
-            response = requests.post(uploadFileUrl, files={file: f}), headers=self.authorisation
+            response = requests.post(uploadFileUrl, files={file: f}, headers=self.authorisation)
             api.statusCodeCheck(response, "Error uploading file")
         return response.json()
 
@@ -59,7 +59,7 @@ class file:
 
         while self.chunkId <= numOfChunks:
             uploadChunkUrl = api.baseUrl + f"files/{self.fileId}/uploadsessions/{self.uploadSessionId}/chunks/{self.chunkId}"
-            with open(file + f"_{chunkId}{fileExtension}", 'rb') as f:
+            with open(filename + f"_{chunkId}{fileExtension}", 'rb') as f:
                 response = requests.post(uploadChunkUrl, files={file: f}, headers=self.authorisation)
             api.statusCodeCheck(response, "Error spliting and uploading file chunk")
             self.chunkId = self.chunkId + 1
@@ -70,7 +70,7 @@ class file:
         api.statusCodeCheck(response, "Error committing file upload")
         return response.json()
 
-    def uploadFileByChunks(self, chunkSize, file)
+    def uploadFileByChunks(self, chunkSize, file):
         startChunkSession(self)
         uploadChunk(self, chunkSize, file)
         commitUpload(self)

@@ -7,7 +7,7 @@ access_token = {}
 
 class solvexia_client: 
     def __init__(self, clientId, clientSecret, env):
-        self.clientIdd = clientId
+        self.clientId = clientId
         self.clientSecret = clientSecret
         self.env = env
         global baseUrl = f"https:///{env}.solvexia.com/api/v1/"
@@ -18,7 +18,7 @@ class solvexia_client:
             'client_secret': self.clientSecret,
             'grant_type': 'client_credentials'
         }
-        response = requests.post(f"https://{self.env}.solvexia.com/oauth/token", data=payload)
+        response = requests.post(f"https://{self.env}.solvexia.com/oauth/token", data=json.dumps(payload))
         if response.status_code != 200:
             print("Error generating an Access Token via Client Credential Flow")
             sys.exit()
@@ -28,10 +28,10 @@ class solvexia_client:
         global access_token = self.authorisation
 
 def statusCodeCheck(response, errorMessage):
-if response.status_code != 200:
-    print(errorMessage)
-    print(response.json().message)
-    sys.exit()
+    if response.status_code != 200:
+        print(errorMessage)
+        print(response.json()['message'])
+        sys.exit()
 
 def apiPost(urlPath, payload):
     headers = access_token

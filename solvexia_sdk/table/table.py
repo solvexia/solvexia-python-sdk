@@ -22,7 +22,6 @@ class table:
         }
         response = api.apiPost("tables", payload)
         api.statusCodeCheck(response, "Error creating table")
-
         return response.json()
 
     def updateTable(self, name, description):
@@ -32,7 +31,6 @@ class table:
         }
         response = api.apiPost(f"tables/{self.tableId}", payload)
         api.statusCodeCheck(response, "Error creating table")
-
         return response.json()
 
     def getTableColumns(self):

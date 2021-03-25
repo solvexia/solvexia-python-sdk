@@ -8,8 +8,13 @@ class process:
     def __init__(self, processId);
         self.processId = processId
     
-    def getProcessList(self):
-        response = api.apiGet("processes")
+    def getProcessList(self, name=None, dateCreatedStart=None, dateCreatedEnd=None):
+        params = {
+            'name': name,
+            'dateCreatedStarted': dateCreatedStart,
+            'dateCreatedEnd': dateCreatedEnd
+        }
+        response = requests.get(api.baseUrl + "processes", params=params, headers=api.access_token)
         api.statusCodeCheck(response, "Error getting process list")
         return response.json()
     
@@ -18,8 +23,14 @@ class process:
         api.statusCodeCheck(response, "Error getting chosen process")
         return response.json()
 
-    def createProcessRun(self):
-        response = api.apiPostNoPayload(f"processes/{self.processId}/processruns")
+    def createProcessRun(self, optionalName=None):
+        if optionalName is None:
+            response = api.apiPostNoPayload(f"processes/{self.processId}/processruns")
+        else:
+            payload = {
+                'namePrefix': optionalName
+            }
+            response = api.apiPost(f"processes/{self.processId}/processruns", payload)
         api.statusCodeCheck(response, "Error creating process run")
         return response.json()
 
