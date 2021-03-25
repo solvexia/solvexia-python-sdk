@@ -1,7 +1,9 @@
-import import_module from importlib
+from importlib import import_module
 
-fileAPI = import_module("file.file")
-processAPI = import_module("process.process")
-processRunAPI = import_module("processrun.processrun")
-dataStepsAPI = import_module("datasteps.datasteps")
-tableAPI = import_module("table.table")
+from . import file
+
+"""fileAPI = import_module("file")
+processAPI = import_module("process")
+processRunAPI = import_module("processrun")
+dataStepsAPI = import_module("datasteps")
+tableAPI = import_module("table")"""

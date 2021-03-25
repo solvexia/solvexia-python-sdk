@@ -3,14 +3,14 @@ import requests
 import json
 import sys
 
-access_token = {}
 
 class solvexia_client: 
     def __init__(self, clientId, clientSecret, env):
         self.clientId = clientId
         self.clientSecret = clientSecret
         self.env = env
-        global baseUrl = f"https:///{env}.solvexia.com/api/v1/"
+        global baseUrl
+        baseUrl = f"https:///{env}.solvexia.com/api/v1/"
 
     def getAccessToken(self):
         payload = {
@@ -18,14 +18,15 @@ class solvexia_client:
             'client_secret': self.clientSecret,
             'grant_type': 'client_credentials'
         }
-        response = requests.post(f"https://{self.env}.solvexia.com/oauth/token", data=json.dumps(payload))
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(f"https://{self.env}.solvexia.com/oauth/token", data=json.dumps(payload), headers=headers)
         if response.status_code != 200:
             print("Error generating an Access Token via Client Credential Flow")
             sys.exit()
         self.accessToken = response.json()['access_token']
-        self.authorisation = {'Authorization': 'Bearer ' + self.accesstoken}
-        
-        global access_token = self.authorisation
+        self.authorisation = {'Authorization': 'Bearer ' + self.accessToken}
+        global access_token 
+        access_token = self.authorisation
 
 def statusCodeCheck(response, errorMessage):
     if response.status_code != 200:
@@ -36,10 +37,13 @@ def statusCodeCheck(response, errorMessage):
 def apiPost(urlPath, payload):
     headers = access_token
     headers['Content-Type'] = 'application/json'
-    return response = requests.post(baseUrl + urlPath, data=json.dumps(payload), headers=headers)}
+    response = requests.post(baseUrl + urlPath, data=json.dumps(payload), headers=headers)
+    return response
 
 def apiPostNoPayload(urlPath):
-    return response = requests.post(baseUrl + urlPath, headers=access_token)
+    response = requests.post(baseUrl + urlPath, headers=access_token)
+    return response
 
 def apiGet(urlPath):
-    return response = requests.get(baseUrl + urlPath, headers=access_token)
+    response = requests.get(baseUrl + urlPath, headers=access_token)
+    return response
