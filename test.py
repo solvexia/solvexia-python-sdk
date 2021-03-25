@@ -35,7 +35,8 @@ processTest.getProcessRunList()
 processTest.getProcessDataStepList()"""
 
 
-# Theses all work but need to test dataStepProperties
+# Theses all work but need to test dataStepProperties because
+# I am unsure of how to get dataStepPropertiesId
 """dataStepsTest = datasteps.datasteps("ds-5854643")
 dataStepsTest.getDataStep()
 dataStepsTest.getDataStepProperties()
