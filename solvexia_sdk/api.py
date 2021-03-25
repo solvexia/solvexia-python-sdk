@@ -10,7 +10,7 @@ class solvexia_client:
         self.clientSecret = clientSecret
         self.env = env
         global baseUrl
-        baseUrl = f"https:///{env}.solvexia.com/api/v1/"
+        baseUrl = f"https://{env}.solvexia.com/api/v1/"
 
     def getAccessToken(self):
         payload = {

@@ -6,7 +6,7 @@ import sys
 from solvexia_sdk import api
 
 class processruns:
-    def __init__(self, processRunId);
+    def __init__(self, processRunId):
         self.processRunId = processRunId
 
     def getProcessRun(self):

@@ -12,7 +12,6 @@ class table:
     def getTable(self):
         response = api.apiGet(f"tables/{self.tableId}")
         api.statusCodeCheck(response, "Error getting table")
-
         return response.json()
 
     def createTable(self, name, description):

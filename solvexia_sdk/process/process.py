@@ -5,7 +5,7 @@ import sys
 from solvexia_sdk import api
 
 class process:
-    def __init__(self, processId);
+    def __init__(self, processId):
         self.processId = processId
     
     def getProcessList(self, name=None, dateCreatedStart=None, dateCreatedEnd=None):
@@ -37,9 +37,11 @@ class process:
     def getProcessRunList(self):
         response = api.apiGet(f"processes/{self.processId}/processruns")
         api.statusCodeCheck(response, "Error getting run list")
+        print(response.json())
         return response.json()
     
     def getProcessDataStepList(self):
         response = api.apiGet(f"processes/{self.processId}/steps")
         api.statusCodeCheck(response, "Error getting data step list")
+        print(response.json())
         return response.json()
