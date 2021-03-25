@@ -54,3 +54,4 @@ payload = {
 # This one is generating an error, I believe this is due to permissions so I will recheck in a bit
 # tableTest.createColumn(payload)
 # Same problem with the remaining column functions
+# Create a new managed table and retest this
