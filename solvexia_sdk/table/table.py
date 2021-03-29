@@ -31,7 +31,7 @@ class table:
             'description': description
         }
         response = api.apiPost(f"tables/{self.tableId}", payload)
-        api.statusCodeCheck(response, "Error creating table")
+        api.statusCodeCheck(response, "Error updating table")
         print(response.json())
         return response.json()
 

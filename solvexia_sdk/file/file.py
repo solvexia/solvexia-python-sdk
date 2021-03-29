@@ -30,7 +30,6 @@ class file:
         with open(file, "rb") as openFile:
             response = requests.post(uploadFileUrl, files={"Filename": openFile}, headers=api.access_token)
         api.statusCodeCheck(response, "Error uploading file")
-        print(response.json())
         return response.json()
 
     def downloadFile(self):
@@ -43,7 +42,7 @@ class file:
 
     def startChunkSession(self):
         response = api.apiPostNoPayload(f"files/{self.fileId}/uploadsessions")
-        api.statusCodeCheck(response, "Error starting chunk session")
+        api.statusCodeCheck(response, "Error starting upload session")
         self.uploadSessionId = response.json()['uploadsessionid']
         self.chunkId = 1
 
@@ -68,7 +67,6 @@ class file:
     def commitUpload(self):
         response = api.apiPostNoPayload(f"files/{self.fileId}/uploadsessions/{self.uploadSessionId}/commit")
         api.statusCodeCheck(response, "Error committing file upload")
-        print(response.json())
         return response.json()
 
     def uploadFileByChunks(self, chunkSize, file):
