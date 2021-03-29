@@ -10,47 +10,76 @@ from solvexia_sdk.table import table
 client = api.solvexia_client("CDA77AD1-168D-EB11-82D5-000D3AD127EB", "fsORNx&Y61eAn3PpE2%", "volibear.qa")
 client.getAccessToken()
 
-# All these work as intended however not sure how to test download and upload
-"""fileTest = file.file("f-5854647")
-fileTest.getFileMetadata() 
-fileTest.updateMetadata("Thisisatest.csv")
-fileTest.downloadFile()"""
+# TESTING ALL FILE API CALLS
 
-# All these work as intended
-processRunTest = processrun.processruns("pr-5916704")
-"""processRunTest.getProcessRun()
-processRunTest.getProcessStatus()
-processRunTest.cancelProcessRun()
-processRunTest.getProcessStatus()
-processRunTest.getProcessRunDataSteps()
-processRunTest.startProcessRun()"""
+# fileTest = file.file("f-5922731")
+# fileTest.getFileMetadata() 
+# fileTest.updateMetadata("Thisisatest.csv")
+# fileTest.downloadFile()
+# fileTest.uploadFile("Upload-test.csv")
+# fileTest.startChunkSession()
+# fileTest.uploadChunk(100, "CollectedClientResponse.csv")
+# fileTest.commitUpload()
+# fileTest.uploadFileByChunks(100, "CollectedClientResponse.csv")
 
-processTest = process.process("p-5854642")
-# All work as intended
-# Still need to test by adding query parameters to getProcessList()
-"""processTest.getProcessList()
-processTest.getProcess()
-processTest.createProcessRun("hello bob")
-processTest.getProcessRunList()
-processTest.getProcessDataStepList()"""
+# TESTING ALL PROCESSRUN API CALLS
+# ALL WORK AS INTENDED
 
+# processRunTest = processrun.processruns("pr-5916704")
+# processRunTest.getProcessRun()
+# processRunTest.getProcessStatus()
+# processRunTest.cancelProcessRun()
+# processRunTest.getProcessStatus()
+# processRunTest.getProcessRunDataSteps()
+# processRunTest.startProcessRun()
 
-# Theses all work but need to test dataStepProperties because
-# I am unsure of how to get dataStepPropertiesId
-"""dataStepsTest = datasteps.datasteps("ds-5854643")
-dataStepsTest.getDataStep()
-dataStepsTest.getDataStepProperties()
-dataStepsTest.getDataStepPropertyForDataStep()"""
+# TESTING ALL PROCESS API CALLS
+# ALL WORK BUT NOT SURE ABOUT THE TIME FILTER FOR GETPROCESSLIST
 
-tableTest = table.table("mt-4970934")
-"""tableTest.getTable()
-tableTest.createTable("newName3", "newDescription")
-tableTest.updateTable("newName4", "newDescription")"""
-tableTest.getTableColumns()
-payload = {
-    'name': "HelloThere",
-    'dataType': "TableColumDataType"
-}
+# processTest = process.process("p-5854642")
+# processTest.getProcessList()
+# processTest.getProcess()
+# processTest.createProcessRun("hello bob")
+# processTest.getProcessRunList()
+# processTest.getProcessDataStepList()
+
+# TESTING DATA STEP API CALLS
+# ALL WORK AS INTENDED
+
+# dataStepsTest = datasteps.datasteps("ds-5854643")
+# dataStepsTest.getDataStep()
+# dataStepsTest.getDataStepProperties()
+# dataStepsTest.getDataStepPropertyForDataStep("dsprop-1844675")
+# payload = {
+#     'file': 'f-5854647', 
+#     'id': 'dsprop-1844675', 
+#     'name': 'Source File Renamed', 
+#     'dataType': 'File', 
+#     'required': False, 
+#     'visible': True, 
+#     'informationFlowType': 'INPUT', 
+#     'mouseoverText': ''
+#     }
+# dataStepsTest.updateDataStepProperty("dsprop-1844675", payload)
+# dataStepsTest.getDataStepPropertyForDataStep("dsprop-1844675")
+
+# TESTING ALL TABLE API CALLS
+# ALL WORK AS INTENDED
+
+# tableTest = table.table("mt-5922660")
+# tableTest.getTable()
+# tableTest.createTable("newName12", "newDescription")
+# tableTest.updateTable("newName14", "newDescription")
+# tableTest.getTableColumns()
+# payload = {
+#     'name': "HelloThere5",
+#     'dataType': "number"
+# }
+# tableTest.createColumn(payload)
+# tableTest.getTableColumns()
+# tableTest.updateColumn(payload, "HelloThere3")
+# tableTest.deleteColumn("HelloThere5")
+# tableTest.getTableColumns()
 # This one is generating an error, I believe this is due to permissions so I will recheck in a bit
 # tableTest.createColumn(payload)
 # Same problem with the remaining column functions

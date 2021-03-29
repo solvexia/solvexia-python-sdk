@@ -37,11 +37,9 @@ class process:
     def getProcessRunList(self):
         response = api.apiGet(f"processes/{self.processId}/processruns")
         api.statusCodeCheck(response, "Error getting run list")
-        print(response.json())
         return response.json()
     
     def getProcessDataStepList(self):
         response = api.apiGet(f"processes/{self.processId}/steps")
         api.statusCodeCheck(response, "Error getting data step list")
-        print(response.json())
         return response.json()

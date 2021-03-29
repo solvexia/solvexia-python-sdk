@@ -26,11 +26,11 @@ class file:
         return response.json()
 
     def uploadFile(self, file):
-    # TO DO
         uploadFileUrl = api.baseUrl + f"files/{self.fileId}"
-        with open(file, 'rb') as f:
-            response = requests.post(uploadFileUrl, files={file: f}, headers=self.authorisation)
-            api.statusCodeCheck(response, "Error uploading file")
+        with open(file, "rb") as openFile:
+            response = requests.post(uploadFileUrl, files={"Filename": openFile}, headers=api.access_token)
+        api.statusCodeCheck(response, "Error uploading file")
+        print(response.json())
         return response.json()
 
     def downloadFile(self):
@@ -42,9 +42,9 @@ class file:
         return response
 
     def startChunkSession(self):
-        response = apiPostNoPayload(f"files/{self.fileId}/uploadsessions")
+        response = api.apiPostNoPayload(f"files/{self.fileId}/uploadsessions")
         api.statusCodeCheck(response, "Error starting chunk session")
-        self.uploadSessionId = response.json()['uploadSessionId']
+        self.uploadSessionId = response.json()['uploadsessionid']
         self.chunkId = 1
 
     def uploadChunk(self, chunkSize, file):
@@ -52,15 +52,15 @@ class file:
         fileSize = os.stat(file).st_size
         numOfChunks = math.ceil(fileSize/chunkSize)
 
-        fs = FileSplit(file=file, fileSize=chunkSize)
-        fs.split()
+        fs = Filesplit()
+        fs.split(file=file, split_size=chunkSize)
         filename = os.path.basename(file)
         fileExtension = os.path.splitext(file)[1]
 
         while self.chunkId <= numOfChunks:
             uploadChunkUrl = api.baseUrl + f"files/{self.fileId}/uploadsessions/{self.uploadSessionId}/chunks/{self.chunkId}"
-            with open(filename + f"_{chunkId}{fileExtension}", 'rb') as f:
-                response = requests.post(uploadChunkUrl, files={file: f}, headers=self.authorisation)
+            with open(os.path.splitext(file)[0] + f"_{self.chunkId}{fileExtension}", 'rb') as f:
+                response = requests.post(uploadChunkUrl, files={file: f}, headers=api.access_token)
             api.statusCodeCheck(response, "Error spliting and uploading file chunk")
             self.chunkId = self.chunkId + 1
         
@@ -68,9 +68,10 @@ class file:
     def commitUpload(self):
         response = api.apiPostNoPayload(f"files/{self.fileId}/uploadsessions/{self.uploadSessionId}/commit")
         api.statusCodeCheck(response, "Error committing file upload")
+        print(response.json())
         return response.json()
 
     def uploadFileByChunks(self, chunkSize, file):
-        startChunkSession(self)
-        uploadChunk(self, chunkSize, file)
-        commitUpload(self)
+        self.startChunkSession()
+        self.uploadChunk(chunkSize, file)
+        self.commitUpload()
