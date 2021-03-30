@@ -5,19 +5,15 @@ import sys
 
 
 class solvexia_client: 
-    def __init__(self, clientId, clientSecret, env):
-        self.clientId = clientId
-        self.clientSecret = clientSecret
+    def __init__(self, env):
         self.env = env
         global baseUrl
         baseUrl = f"https://{env}.solvexia.com/api/v1/"
 
-    def getAccessToken(self):
-        payload = {
-            'client_id': self.clientId,
-            'client_secret': self.clientSecret,
-            'grant_type': 'client_credentials'
-        }
+    def getAccessToken(self, authFile):
+        with open(authFile) as jsonAuthFile:
+            payload = json.load(jsonAuthFile)
+        payload['grant_type'] = 'client_credentials'
         headers = {'Content-Type': 'application/json'}
         response = requests.post(f"https://{self.env}.solvexia.com/oauth/token", data=json.dumps(payload), headers=headers)
         if response.status_code != 200:

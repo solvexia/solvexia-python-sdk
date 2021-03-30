@@ -11,7 +11,7 @@ class processruns:
 
     def getProcessRun(self):
         response = api.apiGet(f"processruns/{self.processRunId}")
-        api.statusCodeCheck(response, "Error getting the specified process run")
+        api.statusCodeCheck(response, f"Error getting the specified process run with processRunId {self.processRunId}")
         return response.json()
     
     def startProcessRun(self):
@@ -20,7 +20,7 @@ class processruns:
             'processRunId': self.processRunId
         }
         response = api.apiPost("requests", payload)
-        api.statusCodeCheck(response, "Error starting process run")
+        api.statusCodeCheck(response, f"Error starting process run with processRunId {self.processRunId}")
         return response.json()
 
     def cancelProcessRun(self):
@@ -29,15 +29,15 @@ class processruns:
             'processRunId': self.processRunId
         }
         response = api.apiPost("requests", payload)
-        api.statusCodeCheck(response, "Error cancelling process run")
+        api.statusCodeCheck(response, f"Error cancelling process run with processRunId {self.processRunId}")
         return response.json()
 
-    def getProcessStatus(self):
+    def getProcessRunStatus(self):
         response = api.apiGet(f"processruns/{self.processRunId}/runstatus")
-        api.statusCodeCheck(response, "Error getting run status of a process run")
+        api.statusCodeCheck(response, f"Error getting run status of a process run with processRunId {self.processRunId}")
         return response.json()
 
-    def getProcessRunDataSteps(self):
+    def getProcessRunDataStepsList(self):
         response = api.apiGet(f"processruns/{self.processRunId}/steps")
-        api.statusCodeCheck(response, "Error getting list of data steps")
+        api.statusCodeCheck(response, f"Error getting list of data steps of process run with processRunId {self.processRunId}")
         return response.json()

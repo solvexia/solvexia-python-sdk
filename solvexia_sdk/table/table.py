@@ -11,7 +11,7 @@ class table:
 
     def getTable(self):
         response = api.apiGet(f"tables/{self.tableId}")
-        api.statusCodeCheck(response, "Error getting table")
+        api.statusCodeCheck(response, f"Error getting table with tableId {self.tableId}")
         print(response.json())
         return response.json()
 
@@ -21,7 +21,7 @@ class table:
             'description': description
         }
         response = api.apiPost("tables", payload)
-        api.statusCodeCheck(response, "Error creating table")
+        api.statusCodeCheck(response, f"Error creating table with tableId {self.tableId}")
         print(response.json())
         return response.json()
 
@@ -31,30 +31,30 @@ class table:
             'description': description
         }
         response = api.apiPost(f"tables/{self.tableId}", payload)
-        api.statusCodeCheck(response, "Error updating table")
+        api.statusCodeCheck(response, f"Error updating table with tableId {self.tableId}")
         print(response.json())
         return response.json()
 
-    def getTableColumns(self):
+    def getTableColumnsList(self):
         response = api.apiGet(f"tables/{self.tableId}/columns")
-        api.statusCodeCheck(response, "Error getting table columns")
+        api.statusCodeCheck(response, f"Error getting table columns with tableId {self.tableId}")
         print(response.json())
         return response.json()
 
     def createColumn(self, columnInstance):
         response = api.apiPost(f"tables/{self.tableId}/columns", columnInstance)
-        api.statusCodeCheck(response, "Error creating column")
+        api.statusCodeCheck(response, f"Error creating column for table with tableId {self.tableId}")
         print(response.json())
         return response.json()
 
     def updateColumn(self, columnInstance, columnName):
         response = api.apiPost(f"tables/{self.tableId}/columns/{columnName}", columnInstance)
-        api.statusCodeCheck(response, "Error updating column")
+        api.statusCodeCheck(response, f"Error updating column with columnName {columnName} for table with tableId {self.tableId}")
         print(response.json())
         return response.json()
 
     def deleteColumn(self, columnName):
         deleteColumnUrl = api.baseUrl + f"tables/{self.tableId}/columns/{columnName}"
         response = requests.delete(deleteColumnUrl, headers=api.access_token)
-        api.statusCodeCheck(response, "Error deleting column")
+        api.statusCodeCheck(response, f"Error deleting column with columnName {columnName} for table with tableId {self.tableId}")
         return 

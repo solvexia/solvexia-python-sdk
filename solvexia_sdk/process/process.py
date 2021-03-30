@@ -20,7 +20,7 @@ class process:
     
     def getProcess(self):
         response = api.apiGet(f"processes/{self.processId}")
-        api.statusCodeCheck(response, "Error getting chosen process")
+        api.statusCodeCheck(response, f"Error getting process with processId {self.processId}")
         return response.json()
 
     def createProcessRun(self, optionalName=None):
@@ -31,15 +31,15 @@ class process:
                 'namePrefix': optionalName
             }
             response = api.apiPost(f"processes/{self.processId}/processruns", payload)
-        api.statusCodeCheck(response, "Error creating process run")
+        api.statusCodeCheck(response, f"Error creating process run with processId {self.processId}")
         return response.json()
 
     def getProcessRunList(self):
         response = api.apiGet(f"processes/{self.processId}/processruns")
-        api.statusCodeCheck(response, "Error getting run list")
+        api.statusCodeCheck(response, f"Error getting process run list with processId {self.processId}")
         return response.json()
     
     def getProcessDataStepList(self):
         response = api.apiGet(f"processes/{self.processId}/steps")
-        api.statusCodeCheck(response, "Error getting data step list")
+        api.statusCodeCheck(response, f"Error getting process data step list with processId {self.processId}")
         return response.json()
