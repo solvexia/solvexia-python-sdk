@@ -27,58 +27,109 @@ If you keep to use the latest or any other specific version of the package check
 python setup.py install
 ```
 
+### Install SDK from GitHub
+An alternative way to install the SDK is to download all the necessary files as a zip from GitHub.
+
 ### Creating JSON Authentication File
 
 1. Recall your Client Id and Client Secret credentials that you saved previously.
-2. Store this information in a JSON file with the structure {'client_id': clientId, 'client_secret': clientSecret}.
-3. Save this file in the SOLVEXIA-PYTHON-SDK directory.
+2. Store this information in a JSON file with the structure:
+```python
+{'client_id': clientId, 'client_secret': clientSecret}.
+```
+3. Save this file in the root directory (directory that contains the solvexia_sdk folder).
 
 ### Importing OAuth Function and Generating an Access Token
-
-If the file you are using to call the functions within the SDK is located within the SOLVEXIA-PYTHON-SDK directory,
-you can import the api.py as follows to access the OAuth function to generate an access token.
+SolveXia uses OAuth2.0 as a secure method to generate access tokens for clients so that they can access and use SolveXia's
+API calls. Therefore, before we can use any of the functions within the SDK, we must first obtain our access token using
+our client_id and client_secret. Using the JSON file we created earlier, we can import the api.py as follows to access 
+the solvexia_client class which contains the access token generation function.
 
 ```python
 from solvexia_sdk import api
 ```
 
-We then need to initalise the solvexia_client class within the api python file by indicating which qa enviroment we will be 
-using for our calls. We must pass through the qa environment that we will be using to this class so that it can be stored.
-E.g. If using the volibear qa environment, we would do the following:
+We then need to initalise the solvexia_client class by indicating and passing through the qa enviroment we will be using for 
+our calls. This environment should match the one that you used to create your client_id and client_secret.
+E.g. If I generated my client_id and client_secret within the volibear qa environment, I would do the following class initialisation:
 
 ```python
 client = api.solvexia_client("volibear.qa")
 ```
 
-Now to access any of the other functions within the solvexia_client class, we simply do client.[function name]. We will do this
-to access the generate access token function within this class. We must pass through the name of the file that contains the
-client_id and client_secret.
+Note: client is just a variable name that represents the initialised class and can be set to anything you desire.
 
-E.g. 
+Once our solvexia_client class has been initialised, we can now generate our access token. This is performed through the 
+getAccessToken function within the solvexia_client class and must have a JSON file containing the client_id and client_secret
+passed as an argument.
+
+E.g. Calling the getAccessToken function within the solvexia_client class
 ```python
 client.getAccessToken("JSONFileName")
 ```
 
-After successfully calling this function, we can use all the remaining API calls within the SDK until our access token expires.
+If no errors are raised, we have now successfully generated our access token and we are free to use all the other functions and
+API calls within this SDK until the token expires.
 
-### Calling API Functions from the SDK
+### Importing API SDK Files
 
-The available SolveXia API calls are separated into group according to the object they are associated with, e.g. datasteps,
+Within this SDK, SolveXia's API calls are separated into groups based on the type of object they operate on, e.g. datasteps,
 process, file, etc.
 
-The first thing we need to do to access these functions is to import them over to our file so we can access them.
-We can do this by following the following general syntax:
+The first thing we need to do to access these functions is to import them over to our file.
+We can do this by following the general syntax:
 ```python
-from solvexia_sdk.[foldername] import [python_file]
+from solvexia_sdk.foldername import python_file
 ```
-E.g. To import the file API calls that are found in the file.py file in the file directory, we do:
+E.g. To import the file API calls and class that are found in the file.py file in the file directory, we do:
 ```python
 from solvexia_sdk.file import file
 ```
-The next step would be to initalise the class within each file by passing through any required parameters.
-We do this by doing varName (free to set this to anything you want) = [fileName].[className](anyPossibleParameters)
-E.g. To initialise the file class we can see that we need to pass in a fileId
+
+### Initialising Classes
+
+After importing an API SDK file, we must initialise the class specified within that particular file before we can access the
+class functions. Make sure to take note of what variable we need to pass in during class initialisation by looking at the 
+arguments (besides self) within the class __init__ function.
+To do this, we can follow the following general syntax:
+```python
+    classNameVar = fileName.className(anyArgs)
+```
+E.g. To initialise the file class within file.py, we need to pass in a fileId.
 ```python
 fileClass = file.file("f-5922731")
 ```
-After initalising the class, we can call all the other functions within the class by doing fileClass.[functionName]
+
+### Calling the Functions within a Class
+Now that the class has been initialised, we are free to access any of the functions within that class. The generic
+code to do this is as follows:
+```python
+    retObj = classNameVar.classFunction(anyArgs)
+```
+Since most of the functions within this SDK will return a JSON object, generally we want to store that in a variable
+so that we can access this information (retObj).
+E.g. Calling the getFileMetadata function with an initialised file class called fileClass and storing the response in a 
+variable called response.
+```python
+    response = fileClass.getFileMetadata()
+```
+
+Reminder: Ensure that for any of the object classes, we must always initialise the class first before we can call 
+any functions from within the class.
+
+### Return Value of API Functions
+A majority of the API call functions within this SDK will return a JSON object specific to the object. These JSON objects
+and their format are explained in depth in SolveXia's API docs.
+An alternative to see the structure of the return JSON object is to print the JSON object that is returned by the function
+to stdout.
+
+### Additional Arguments for Functions
+Some API function calls within this SDK have additional arguments that must be passed through. In most cases, these are 
+either additional ids or an object instance.
+
+### Structure of Object Instance Docs
+[File Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/file/file_schemas.md/#upload-session)
+[Process Run Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/process_runs/process_runs_schemas.md)
+[Process Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/processes/schemas.md)
+[Datasteps Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/steps/datastep_schemas.md)
+[Table Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/tables/tables_schemas.md)
