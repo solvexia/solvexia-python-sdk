@@ -7,10 +7,9 @@ from solvexia_sdk.processrun import processrun
 from solvexia_sdk.datasteps import datasteps
 from solvexia_sdk.table import table
 
-client = api.solvexia_client("CDA77AD1-168D-EB11-82D5-000D3AD127EB", "fsORNx&Y61eAn3PpE2%", "volibear.qa")
-client.getAccessToken()
+client = api.solvexia_client("volibear.qa")
+client.getAccessToken("authFile.json")
 
-# TESTING ALL FILE API CALLS
 
 # fileTest = file.file("f-5922731")
 # fileTest.getFileMetadata() 
@@ -22,8 +21,6 @@ client.getAccessToken()
 # fileTest.commitUpload()
 # fileTest.uploadFileByChunks(100, "CollectedClientResponse.csv")
 
-# TESTING ALL PROCESSRUN API CALLS
-# ALL WORK AS INTENDED
 
 # processRunTest = processrun.processruns("pr-5916704")
 # processRunTest.getProcessRun()
@@ -33,8 +30,6 @@ client.getAccessToken()
 # processRunTest.getProcessRunDataSteps()
 # processRunTest.startProcessRun()
 
-# TESTING ALL PROCESS API CALLS
-# ALL WORK BUT NOT SURE ABOUT THE TIME FILTER FOR GETPROCESSLIST
 
 # processTest = process.process("p-5854642")
 # processTest.getProcessList()
@@ -43,8 +38,6 @@ client.getAccessToken()
 # processTest.getProcessRunList()
 # processTest.getProcessDataStepList()
 
-# TESTING DATA STEP API CALLS
-# ALL WORK AS INTENDED
 
 # dataStepsTest = datasteps.datasteps("ds-5854643")
 # dataStepsTest.getDataStep()
@@ -63,8 +56,6 @@ client.getAccessToken()
 # dataStepsTest.updateDataStepProperty("dsprop-1844675", payload)
 # dataStepsTest.getDataStepPropertyForDataStep("dsprop-1844675")
 
-# TESTING ALL TABLE API CALLS
-# ALL WORK AS INTENDED
 
 # tableTest = table.table("mt-5922660")
 # tableTest.getTable()

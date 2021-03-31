@@ -127,7 +127,7 @@ to stdout.
 
 ### Additional Arguments for Functions
 Some API function calls within this SDK have additional arguments that must be passed through. In most cases, these are 
-either additional ids or an object instance.
+either additional ids, an object instance or file/filepath.
 
 ### Structure of Object Instance Docs
 [File Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/file/file_schemas.md/#upload-session)  
@@ -135,3 +135,10 @@ either additional ids or an object instance.
 [Process Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/processes/schemas.md)  
 [Datasteps Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/steps/datastep_schemas.md)  
 [Table Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/tables/tables_schemas.md)  
+
+### Example of a Python Script that Uses the SDK
+A sample python script is included (test.py) for references and to make it easier to understand how to use SolveXia's SDK.
+The included python file undergoes the authentication process, initialisation of classes and then the calling of functions
+within the SDK to interact with the desired objects on the volibear qa environment.  
+Note, this sample file does not currently run due to the lack of an authentication json file containing the apporpriate
+client_id and client_secret.
