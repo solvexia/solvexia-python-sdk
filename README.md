@@ -42,7 +42,7 @@ An alternative way to install the SDK is to download all the necessary files as 
 ### Importing OAuth Function and Generating an Access Token
 SolveXia uses OAuth2.0 as a secure method to generate access tokens for clients so that they can access and use SolveXia's
 API calls. Therefore, before we can use any of the functions within the SDK, we must first obtain our access token using
-our client_id and client_secret. Using the JSON file we created earlier, we can import the api.py as follows to access 
+our client_id and client_secret. Using the JSON file we created earlier, we can import the api.py file as follows to access 
 the solvexia_client class which contains the access token generation function.
 
 ```python
@@ -51,6 +51,7 @@ from solvexia_sdk import api
 
 We then need to initalise the solvexia_client class by indicating and passing through the qa enviroment we will be using for 
 our calls. This environment should match the one that you used to create your client_id and client_secret.
+
 E.g. If I generated my client_id and client_secret within the volibear qa environment, I would do the following class initialisation:
 
 ```python
@@ -61,7 +62,7 @@ Note: client is just a variable name that represents the initialised class and c
 
 Once our solvexia_client class has been initialised, we can now generate our access token. This is performed through the 
 getAccessToken function within the solvexia_client class and must have a JSON file containing the client_id and client_secret
-passed as an argument.
+passed through as an argument.
 
 E.g. Calling the getAccessToken function within the solvexia_client class
 ```python
@@ -108,6 +109,7 @@ code to do this is as follows:
 ```
 Since most of the functions within this SDK will return a JSON object, generally we want to store that in a variable
 so that we can access this information (retObj).
+
 E.g. Calling the getFileMetadata function with an initialised file class called fileClass and storing the response in a 
 variable called response.
 ```python
@@ -120,7 +122,7 @@ any functions from within the class.
 ### Return Value of API Functions
 A majority of the API call functions within this SDK will return a JSON object specific to the object. These JSON objects
 and their format are explained in depth in SolveXia's API docs.
-An alternative to see the structure of the return JSON object is to print the JSON object that is returned by the function
+An alternative to see the structure of the returned JSON object is to print the JSON object that is returned by the function
 to stdout.
 
 ### Additional Arguments for Functions
@@ -128,8 +130,8 @@ Some API function calls within this SDK have additional arguments that must be p
 either additional ids or an object instance.
 
 ### Structure of Object Instance Docs
-[File Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/file/file_schemas.md/#upload-session)
-[Process Run Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/process_runs/process_runs_schemas.md)
-[Process Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/processes/schemas.md)
-[Datasteps Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/steps/datastep_schemas.md)
-[Table Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/tables/tables_schemas.md)
+[File Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/file/file_schemas.md/#upload-session)  
+[Process Run Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/process_runs/process_runs_schemas.md)  
+[Process Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/processes/schemas.md)  
+[Datasteps Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/steps/datastep_schemas.md)  
+[Table Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/tables/tables_schemas.md)  
