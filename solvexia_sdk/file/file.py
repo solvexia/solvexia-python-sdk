@@ -39,6 +39,18 @@ class file:
         response = requests.get(downloadFileUrl, headers=headers)
         api.status_code_check(response, f"Error downloading file with fileId {self.fileId}")
         return response
+    
+    # When uploading a large file by chunks, the process is as follows:
+    # 1. Starting the uploading session
+    # 2. Uploading each chunk
+    # 3. Committing the upload
+    # The following function does all three in one function whilst the individual functions for each of the following
+    # are located further below.
+    
+    def upload_file_by_chunks(self, chunkSize, file):
+        self.start_upload_session()
+        self.upload_chunk(chunkSize, file)
+        self.commit_upload()
 
     def start_upload_session(self):
         response = api.api_post_no_payload(f"files/{self.fileId}/uploadsessions")
@@ -66,8 +78,3 @@ class file:
         response = api.api_post_no_payload(f"files/{self.fileId}/uploadsessions/{self.uploadSessionId}/commit")
         api.status_code_check(response, f"Error committing upload for file with fileId {self.fileId}")
         return response.json()
-
-    def upload_file_by_chunks(self, chunkSize, file):
-        self.start_upload_session()
-        self.upload_chunk(chunkSize, file)
-        self.commit_upload()
