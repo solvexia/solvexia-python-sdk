@@ -44,7 +44,7 @@ class file:
     # 1. Starting the uploading session
     # 2. Uploading each chunk
     # 3. Committing the upload
-    # The following function does all three in one function whilst the individual functions for each of the following
+    # The following function does all three in one function whilst the individual functions for each of the above steps
     # are located further below.
 
     def upload_file_by_chunks(self, chunk_size, file):
@@ -64,7 +64,6 @@ class file:
 
         fs = Filesplit()
         fs.split(file=file, split_size=chunk_size)
-        filename = os.path.basename(file)
         file_extension = os.path.splitext(file)[1]
 
         while self.chunk_id <= num_of_chunks:

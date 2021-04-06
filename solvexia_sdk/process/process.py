@@ -14,7 +14,7 @@ class process:
             'dateCreatedStarted': date_created_start,
             'dateCreatedEnd': date_created_end
         }
-        response = requests.get(api.base_url + "processes", params=params, headers=api.accessToken)
+        response = requests.get(api.base_url + "processes", params=params, headers=api.access_token)
         api.status_code_check(response, "Error getting process list")
         return response.json()
     
