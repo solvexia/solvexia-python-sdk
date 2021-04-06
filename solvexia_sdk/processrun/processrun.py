@@ -5,39 +5,39 @@ import json
 import sys
 from solvexia_sdk import api
 
-class processruns:
+class processRuns:
     def __init__(self, processRunId):
         self.processRunId = processRunId
 
-    def getProcessRun(self):
-        response = api.apiGet(f"processruns/{self.processRunId}")
-        api.statusCodeCheck(response, f"Error getting the specified process run with processRunId {self.processRunId}")
+    def get_process_run(self):
+        response = api.api_get(f"processruns/{self.processRunId}")
+        api.status_code_check(response, f"Error getting the specified process run with processRunId {self.processRunId}")
         return response.json()
     
-    def startProcessRun(self):
+    def start_process_run(self):
         payload = {
             'request': 'ProcessRun_StartRq',
             'processRunId': self.processRunId
         }
-        response = api.apiPost("requests", payload)
-        api.statusCodeCheck(response, f"Error starting process run with processRunId {self.processRunId}")
+        response = api.api_post("requests", payload)
+        api.status_code_check(response, f"Error starting process run with processRunId {self.processRunId}")
         return response.json()
 
-    def cancelProcessRun(self):
+    def cancel_process_run(self):
         payload = {
             'request': 'ProcessRun_CancelRq',
             'processRunId': self.processRunId
         }
-        response = api.apiPost("requests", payload)
-        api.statusCodeCheck(response, f"Error cancelling process run with processRunId {self.processRunId}")
+        response = api.api_post("requests", payload)
+        api.status_code_check(response, f"Error cancelling process run with processRunId {self.processRunId}")
         return response.json()
 
-    def getProcessRunStatus(self):
-        response = api.apiGet(f"processruns/{self.processRunId}/runstatus")
-        api.statusCodeCheck(response, f"Error getting run status of a process run with processRunId {self.processRunId}")
+    def get_process_run_status(self):
+        response = api.api_get(f"processruns/{self.processRunId}/runstatus")
+        api.status_code_check(response, f"Error getting run status of a process run with processRunId {self.processRunId}")
         return response.json()
 
-    def getProcessRunDataStepsList(self):
-        response = api.apiGet(f"processruns/{self.processRunId}/steps")
-        api.statusCodeCheck(response, f"Error getting list of data steps of process run with processRunId {self.processRunId}")
+    def get_process_run_data_steps_list(self):
+        response = api.api_get(f"processruns/{self.processRunId}/steps")
+        api.status_code_check(response, f"Error getting list of data steps of process run with processRunId {self.processRunId}")
         return response.json()

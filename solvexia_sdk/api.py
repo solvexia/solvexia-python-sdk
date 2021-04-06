@@ -4,13 +4,13 @@ import json
 import sys
 
 
-class solvexia_client: 
+class solvexiaClient: 
     def __init__(self, env):
         self.env = env
         global baseUrl
         baseUrl = f"https://{env}.solvexia.com/api/v1/"
 
-    def getAccessToken(self, authFile):
+    def get_access_token(self, authFile):
         with open(authFile) as jsonAuthFile:
             payload = json.load(jsonAuthFile)
         payload['grant_type'] = 'client_credentials'
@@ -21,25 +21,25 @@ class solvexia_client:
             sys.exit()
         self.accessToken = response.json()['access_token']
         self.authorisation = {'Authorization': 'Bearer ' + self.accessToken}
-        global access_token 
-        access_token = self.authorisation
+        global accessToken 
+        accessToken = self.authorisation
 
-def statusCodeCheck(response, errorMessage):
+def status_code_check(response, errorMessage):
     if response.status_code != 200:
         print(errorMessage)
         print(response.json()['message'])
         sys.exit()
 
-def apiPost(urlPath, payload):
-    headers = access_token
+def api_post(urlPath, payload):
+    headers = accessToken
     headers['Content-Type'] = 'application/json'
     response = requests.post(baseUrl + urlPath, data=json.dumps(payload), headers=headers)
     return response
 
-def apiPostNoPayload(urlPath):
-    response = requests.post(baseUrl + urlPath, headers=access_token)
+def api_post_no_payload(urlPath):
+    response = requests.post(baseUrl + urlPath, headers=accessToken)
     return response
 
-def apiGet(urlPath):
-    response = requests.get(baseUrl + urlPath, headers=access_token)
+def api_get(urlPath):
+    response = requests.get(baseUrl + urlPath, headers=accessToken)
     return response

@@ -7,71 +7,66 @@ from solvexia_sdk.processrun import processrun
 from solvexia_sdk.datasteps import datasteps
 from solvexia_sdk.table import table
 
-client = api.solvexia_client("volibear.qa")
-client.getAccessToken("authFile.json")
+client = api.solvexiaClient("volibear.qa")
+client.get_access_token("auth.json")
 
 
-# fileTest = file.file("f-5922731")
-# fileTest.getFileMetadata() 
-# fileTest.updateMetadata("Thisisatest.csv")
-# fileTest.downloadFile()
-# fileTest.uploadFile("Upload-test.csv")
-# fileTest.startChunkSession()
-# fileTest.uploadChunk(100, "CollectedClientResponse.csv")
-# fileTest.commitUpload()
-# fileTest.uploadFileByChunks(100, "CollectedClientResponse.csv")
+fileTest = file.file("f-5940022")
+fileTest.get_file_metadata() 
+fileTest.upload_file("Upload-test.csv")
+fileTest.update_file_metadata("Thisisatest.csv")
+fileTest.download_file()
+fileTest.start_upload_session()
+fileTest.upload_chunk(100, "CollectedClientResponse.csv")
+fileTest.commit_upload()
+fileTest.upload_file_by_chunks(100, "CollectedClientResponse.csv")
+
+processRunTest = processrun.processRuns("pr-5916704")
+processRunTest.get_process_run()
+processRunTest.get_process_run_status()
+processRunTest.get_process_run_data_steps_list()
+processRunTest.start_process_run()
+processRunTest.cancel_process_run()
 
 
-# processRunTest = processrun.processruns("pr-5916704")
-# processRunTest.getProcessRun()
-# processRunTest.getProcessStatus()
-# processRunTest.cancelProcessRun()
-# processRunTest.getProcessStatus()
-# processRunTest.getProcessRunDataSteps()
-# processRunTest.startProcessRun()
+processTest = process.process("p-5854642")
+processTest.get_process_list()
+processTest.get_process()
+processTest.create_process_run("hello bob")
+processTest.get_process_run_list()
+processTest.get_process_data_step_list()
 
 
-# processTest = process.process("p-5854642")
-# processTest.getProcessList()
-# processTest.getProcess()
-# processTest.createProcessRun("hello bob")
-# processTest.getProcessRunList()
-# processTest.getProcessDataStepList()
+dataStepsTest = datasteps.dataSteps("ds-5854643")
+dataStepsTest.get_data_step()
+dataStepsTest.get_data_step_property_list()
+dataStepsTest.get_data_step_property_for_data_step("dsprop-1844675")
+payload = {
+    'file': 'f-5854647', 
+    'id': 'dsprop-1844675', 
+    'name': 'Source File Renamed', 
+    'dataType': 'File', 
+    'required': False, 
+    'visible': True, 
+    'informationFlowType': 'INPUT', 
+    'mouseoverText': ''
+    }
+dataStepsTest.update_data_step_property("dsprop-1844675", payload)
+dataStepsTest.get_data_step_property_for_data_step("dsprop-1844675")
 
 
-# dataStepsTest = datasteps.datasteps("ds-5854643")
-# dataStepsTest.getDataStep()
-# dataStepsTest.getDataStepProperties()
-# dataStepsTest.getDataStepPropertyForDataStep("dsprop-1844675")
-# payload = {
-#     'file': 'f-5854647', 
-#     'id': 'dsprop-1844675', 
-#     'name': 'Source File Renamed', 
-#     'dataType': 'File', 
-#     'required': False, 
-#     'visible': True, 
-#     'informationFlowType': 'INPUT', 
-#     'mouseoverText': ''
-#     }
-# dataStepsTest.updateDataStepProperty("dsprop-1844675", payload)
-# dataStepsTest.getDataStepPropertyForDataStep("dsprop-1844675")
-
-
-# tableTest = table.table("mt-5922660")
-# tableTest.getTable()
-# tableTest.createTable("newName12", "newDescription")
-# tableTest.updateTable("newName14", "newDescription")
-# tableTest.getTableColumns()
-# payload = {
-#     'name': "HelloThere5",
-#     'dataType': "number"
-# }
-# tableTest.createColumn(payload)
-# tableTest.getTableColumns()
-# tableTest.updateColumn(payload, "HelloThere3")
-# tableTest.deleteColumn("HelloThere5")
-# tableTest.getTableColumns()
-# This one is generating an error, I believe this is due to permissions so I will recheck in a bit
-# tableTest.createColumn(payload)
-# Same problem with the remaining column functions
-# Create a new managed table and retest this
+tableTest = table.table("mt-5922660")
+tableTest.get_table()
+tableTest.create_table("newName12", "newDescription")
+tableTest.update_table("newName14", "newDescription")
+tableTest.get_table_columns_list()
+payload = {
+    'name': "HelloThere5",
+    'dataType': "number"
+}
+tableTest.create_column(payload)
+tableTest.get_table_columns_list()
+tableTest.update_column(payload, "HelloThere5")
+tableTest.delete_column("HelloThere5")
+tableTest.get_table_columns_list()
+tableTest.create_column(payload)
