@@ -11,7 +11,7 @@ class process:
     def get_process_list(self, name=None, date_created_start=None, date_created_end=None):
         params = {
             'name': name,
-            'dateCreatedStarted': date_created_start,
+            'dateCreatedStart': date_created_start,
             'dateCreatedEnd': date_created_end
         }
         response = requests.get(api.base_url + "processes", params=params, headers=api.access_token)
