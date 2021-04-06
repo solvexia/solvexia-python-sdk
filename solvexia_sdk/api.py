@@ -7,39 +7,39 @@ import sys
 class solvexiaClient: 
     def __init__(self, env):
         self.env = env
-        global baseUrl
-        baseUrl = f"https://{env}.solvexia.com/api/v1/"
+        global base_url
+        base_url = f"https://{env}.solvexia.com/api/v1/"
 
-    def get_access_token(self, authFile):
-        with open(authFile) as jsonAuthFile:
-            payload = json.load(jsonAuthFile)
+    def get_access_token(self, auth_file):
+        with open(auth_file) as json_auth_file:
+            payload = json.load(json_auth_file)
         payload['grant_type'] = 'client_credentials'
         headers = {'Content-Type': 'application/json'}
         response = requests.post(f"https://{self.env}.solvexia.com/oauth/token", data=json.dumps(payload), headers=headers)
         if response.status_code != 200:
             print("Error generating an Access Token via Client Credential Flow")
             sys.exit()
-        self.accessToken = response.json()['access_token']
-        self.authorisation = {'Authorization': 'Bearer ' + self.accessToken}
-        global accessToken 
-        accessToken = self.authorisation
+        self.access_token = response.json()['access_token']
+        self.authorisation = {'Authorization': 'Bearer ' + self.access_token}
+        global access_token 
+        access_token = self.authorisation
 
-def status_code_check(response, errorMessage):
+def status_code_check(response, error_message):
     if response.status_code != 200:
-        print(errorMessage)
+        print(error_message)
         print(response.json()['message'])
         sys.exit()
 
-def api_post(urlPath, payload):
-    headers = accessToken
+def api_post(url_path, payload):
+    headers = access_token
     headers['Content-Type'] = 'application/json'
-    response = requests.post(baseUrl + urlPath, data=json.dumps(payload), headers=headers)
+    response = requests.post(base_url + url_path, data=json.dumps(payload), headers=headers)
     return response
 
-def api_post_no_payload(urlPath):
-    response = requests.post(baseUrl + urlPath, headers=accessToken)
+def api_post_no_payload(url_path):
+    response = requests.post(base_url + url_path, headers=access_token)
     return response
 
-def api_get(urlPath):
-    response = requests.get(baseUrl + urlPath, headers=accessToken)
+def api_get(url_path):
+    response = requests.get(base_url + url_path, headers=access_token)
     return response

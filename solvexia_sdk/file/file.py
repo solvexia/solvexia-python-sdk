@@ -9,35 +9,35 @@ from fsplit.filesplit import Filesplit
 from solvexia_sdk import api
 
 class file:
-    def __init__(self, fileId):
-        self.fileId = fileId
+    def __init__(self, file_id):
+        self.file_id = file_id
 
     def get_file_metadata(self):
-        response = api.api_get(f"files/{self.fileId}/metadata")
-        api.status_code_check(response, f"Error getting metadata for file with fileId {self.fileId}")
+        response = api.api_get(f"files/{self.file_id}/metadata")
+        api.status_code_check(response, f"Error getting metadata for file with file_id {self.file_id}")
         return response.json()
 
     def update_file_metadata(self, name):
         payload = {
             'name': name
         }
-        response = api.api_post(f"files/{self.fileId}/metadata", payload)
-        api.status_code_check(response, f"Error updating metadata for file with fileId {self.fileId}")
+        response = api.api_post(f"files/{self.file_id}/metadata", payload)
+        api.status_code_check(response, f"Error updating metadata for file with file_id {self.file_id}")
         return response.json()
 
     def upload_file(self, file):
-        uploadFileUrl = api.baseUrl + f"files/{self.fileId}"
-        with open(file, "rb") as openFile:
-            response = requests.post(uploadFileUrl, files={"Filename": openFile}, headers=api.accessToken)
+        upload_file_url = api.base_url + f"files/{self.file_id}"
+        with open(file, "rb") as open_file:
+            response = requests.post(upload_file_url, files={"Filename": open_file}, headers=api.access_token)
         api.status_code_check(response, f"Error uploading file {file}")
         return response.json()
 
     def download_file(self):
-        downloadFileUrl = api.baseUrl + f"files/{self.fileId}"
-        headers = api.accessToken
+        download_file_url = api.base_url + f"files/{self.file_id}"
+        headers = api.access_token
         headers['Content-Type'] = 'application/octet-stream'
-        response = requests.get(downloadFileUrl, headers=headers)
-        api.status_code_check(response, f"Error downloading file with fileId {self.fileId}")
+        response = requests.get(download_file_url, headers=headers)
+        api.status_code_check(response, f"Error downloading file with file_id {self.file_id}")
         return response
     
     # When uploading a large file by chunks, the process is as follows:
@@ -46,35 +46,35 @@ class file:
     # 3. Committing the upload
     # The following function does all three in one function whilst the individual functions for each of the following
     # are located further below.
-    
-    def upload_file_by_chunks(self, chunkSize, file):
+
+    def upload_file_by_chunks(self, chunk_size, file):
         self.start_upload_session()
-        self.upload_chunk(chunkSize, file)
+        self.upload_chunk(chunk_size, file)
         self.commit_upload()
 
     def start_upload_session(self):
-        response = api.api_post_no_payload(f"files/{self.fileId}/uploadsessions")
-        api.status_code_check(response, f"Error starting upload session for file with fileId {self.fileId}")
-        self.uploadSessionId = response.json()['uploadsessionid']
-        self.chunkId = 1
+        response = api.api_post_no_payload(f"files/{self.file_id}/uploadsessions")
+        api.status_code_check(response, f"Error starting upload session for file with file_id {self.file_id}")
+        self.upload_session_id = response.json()['uploadsessionid']
+        self.chunk_id = 1
 
-    def upload_chunk(self, chunkSize, file):
-        fileSize = os.stat(file).st_size
-        numOfChunks = math.ceil(fileSize/chunkSize)
+    def upload_chunk(self, chunk_size, file):
+        file_size = os.stat(file).st_size
+        num_of_chunks = math.ceil(file_size/chunk_size)
 
         fs = Filesplit()
-        fs.split(file=file, split_size=chunkSize)
+        fs.split(file=file, split_size=chunk_size)
         filename = os.path.basename(file)
-        fileExtension = os.path.splitext(file)[1]
+        file_extension = os.path.splitext(file)[1]
 
-        while self.chunkId <= numOfChunks:
-            uploadChunkUrl = api.baseUrl + f"files/{self.fileId}/uploadsessions/{self.uploadSessionId}/chunks/{self.chunkId}"
-            with open(os.path.splitext(file)[0] + f"_{self.chunkId}{fileExtension}", 'rb') as f:
-                response = requests.post(uploadChunkUrl, files={file: f}, headers=api.accessToken)
-            api.status_code_check(response, f"Error spliting and uploading file with fileId {self.fileId} and chunkId {self.chunkId}")
-            self.chunkId = self.chunkId + 1
+        while self.chunk_id <= num_of_chunks:
+            upload_chunk_url = api.base_url + f"files/{self.file_id}/uploadsessions/{self.upload_session_id}/chunks/{self.chunk_id}"
+            with open(os.path.splitext(file)[0] + f"_{self.chunk_id}{file_extension}", 'rb') as f:
+                response = requests.post(upload_chunk_url, files={file: f}, headers=api.access_token)
+            api.status_code_check(response, f"Error spliting and uploading file with file_id {self.file_id} and chunkId {self.chunk_id}")
+            self.chunk_id = self.chunk_id + 1
         
     def commit_upload(self):
-        response = api.api_post_no_payload(f"files/{self.fileId}/uploadsessions/{self.uploadSessionId}/commit")
-        api.status_code_check(response, f"Error committing upload for file with fileId {self.fileId}")
+        response = api.api_post_no_payload(f"files/{self.file_id}/uploadsessions/{self.upload_session_id}/commit")
+        api.status_code_check(response, f"Error committing upload for file with file_id {self.file_id}")
         return response.json()

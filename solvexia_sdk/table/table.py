@@ -6,12 +6,12 @@ import sys
 from solvexia_sdk import api
 
 class table:
-    def __init__(self, tableId):
-        self.tableId = tableId
+    def __init__(self, table_id):
+        self.table_id = table_id
 
     def get_table(self):
-        response = api.api_get(f"tables/{self.tableId}")
-        api.status_code_check(response, f"Error getting table with tableId {self.tableId}")
+        response = api.api_get(f"tables/{self.table_id}")
+        api.status_code_check(response, f"Error getting table with table_id {self.table_id}")
         return response.json()
 
     def create_table(self, name, description):
@@ -20,7 +20,7 @@ class table:
             'description': description
         }
         response = api.api_post("tables", payload)
-        api.status_code_check(response, f"Error creating table with tableId {self.tableId}")
+        api.status_code_check(response, f"Error creating table with table_id {self.table_id}")
         return response.json()
 
     def update_table(self, name, description):
@@ -28,26 +28,26 @@ class table:
             'name': name,
             'description': description
         }
-        response = api.api_post(f"tables/{self.tableId}", payload)
-        api.status_code_check(response, f"Error updating table with tableId {self.tableId}")
+        response = api.api_post(f"tables/{self.table_id}", payload)
+        api.status_code_check(response, f"Error updating table with table_id {self.table_id}")
         return response.json()
 
     def get_table_columns_list(self):
-        response = api.api_get(f"tables/{self.tableId}/columns")
-        api.status_code_check(response, f"Error getting table columns with tableId {self.tableId}")
+        response = api.api_get(f"tables/{self.table_id}/columns")
+        api.status_code_check(response, f"Error getting table columns with table_id {self.table_id}")
         return response.json()
 
-    def create_column(self, columnInstance):
-        response = api.api_post(f"tables/{self.tableId}/columns", columnInstance)
-        api.status_code_check(response, f"Error creating column for table with tableId {self.tableId}")
+    def create_column(self, column_instance):
+        response = api.api_post(f"tables/{self.table_id}/columns", column_instance)
+        api.status_code_check(response, f"Error creating column for table with table_id {self.table_id}")
         return response.json()
 
-    def update_column(self, columnInstance, columnName):
-        response = api.api_post(f"tables/{self.tableId}/columns/{columnName}", columnInstance)
-        api.status_code_check(response, f"Error updating column with columnName {columnName} for table with tableId {self.tableId}")
+    def update_column(self, column_instance, column_name):
+        response = api.api_post(f"tables/{self.table_id}/columns/{column_name}", column_instance)
+        api.status_code_check(response, f"Error updating column with column_name {column_name} for table with table_id {self.table_id}")
         return response.json()
 
-    def delete_column(self, columnName):
-        deleteColumnUrl = api.baseUrl + f"tables/{self.tableId}/columns/{columnName}"
-        response = requests.delete(deleteColumnUrl, headers=api.accessToken)
-        api.status_code_check(response, f"Error deleting column with columnName {columnName} for table with tableId {self.tableId}")
+    def delete_column(self, column_name):
+        delete_column_url = api.base_url + f"tables/{self.table_id}/columns/{column_name}"
+        response = requests.delete(delete_column_url, headers=api.access_token)
+        api.status_code_check(response, f"Error deleting column with column_name {column_name} for table with table_id {self.table_id}")
