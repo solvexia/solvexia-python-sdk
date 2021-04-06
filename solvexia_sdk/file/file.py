@@ -30,7 +30,7 @@ class file:
         with open(file, "rb") as openFile:
             response = requests.post(uploadFileUrl, files={"Filename": openFile}, headers=api.accessToken)
         api.status_code_check(response, f"Error uploading file {file}")
-        return response
+        return response.json()
 
     def download_file(self):
         downloadFileUrl = api.baseUrl + f"files/{self.fileId}"
