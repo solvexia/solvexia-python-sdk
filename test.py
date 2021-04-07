@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 from solvexia_sdk import api
 from solvexia_sdk.file import file
 from solvexia_sdk.process import process
