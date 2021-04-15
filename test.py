@@ -5,11 +5,19 @@ from solvexia_sdk.processrun import processrun
 from solvexia_sdk.datasteps import datasteps
 from solvexia_sdk.table import table
 
-client = api.solvexiaClient("volibear.qa")
+client = api.solvexiaClient("busi.qa")
 client.get_access_token("auth.json")
 
+processTest = process.process("p-37817")
+final_file_list = processTest.get_process_file_list()
 
-fileTest = file.file("f-5940022")
+dataStepsTest = datasteps.dataSteps("ds-37818")
+test_list = dataStepsTest.get_data_step_file_list()
+    
+print(final_file_list)
+print(test_list)
+
+'''fileTest = file.file("f-5940022")
 fileTest.get_file_metadata() 
 fileTest.upload_file("Upload-test.csv")
 fileTest.update_file_metadata("Thisisatest.csv")
@@ -67,4 +75,4 @@ tableTest.get_table_columns_list()
 tableTest.update_column(payload, "HelloThere5")
 tableTest.delete_column("HelloThere5")
 tableTest.get_table_columns_list()
-tableTest.create_column(payload)
+tableTest.create_column(payload)'''

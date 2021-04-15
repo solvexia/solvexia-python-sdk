@@ -28,3 +28,11 @@ class dataSteps:
         response = api.api_post(f"steps/{self.step_id}/properties/{property_id}", data_step_instance)
         api.status_code_check(response, f"Error updating data step property with step_id {self.step_id} and property_id {property_id}")
         return response.json()
+
+    def get_data_step_file_list(self):
+        final_file_list = []
+        datastep_property_list = self.get_data_step_property_list()
+        for datastep_property in datastep_property_list:
+            if datastep_property["dataType"] == "File":
+                final_file_list.append(datastep_property["file"])
+        return final_file_list

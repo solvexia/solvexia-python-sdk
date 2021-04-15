@@ -2,6 +2,7 @@ import requests
 import json
 import sys
 from solvexia_sdk import api
+from solvexia_sdk.datasteps import datasteps
 
 class process:
     def __init__(self, process_id):
@@ -42,3 +43,15 @@ class process:
         response = api.api_get(f"processes/{self.process_id}/steps")
         api.status_code_check(response, f"Error getting process data step list with process_id {self.process_id}")
         return response.json()
+
+    def get_process_file_list(self):
+        final_file_list = []
+        datastep_list = self.get_process_data_step_list()
+        for datastep in datastep_list:
+            dataStepClass = datasteps.dataSteps(datastep["id"])
+            datastep_property_list = dataStepClass.get_data_step_property_list()
+            for datastep_property in datastep_property_list:
+                if datastep_property["dataType"] == "File":
+                    final_file_list.append(datastep_property["file"])
+        
+        return final_file_list
