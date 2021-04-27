@@ -48,7 +48,7 @@ class file:
     def upload_file_by_chunks(self, chunk_size, file):
         self.start_upload_session()
         self.upload_chunk(chunk_size, file)
-        self.commit_upload()
+        self.commit_upload(file)
 
     def start_upload_session(self):
         response = api.api_post_no_payload(f"files/{self.file_id}/uploadsessions")
@@ -71,7 +71,8 @@ class file:
             api.status_code_check(response, f"Error spliting and uploading file with file_id {self.file_id} and chunkId {self.chunk_id}")
             self.chunk_id = self.chunk_id + 1
         
-    def commit_upload(self):
+    def commit_upload(self, file):
         response = api.api_post_no_payload(f"files/{self.file_id}/uploadsessions/{self.upload_session_id}/commit")
         api.status_code_check(response, f"Error committing upload for file with file_id {self.file_id}")
+        self.update_file_metadata(file)
         return response.json()
