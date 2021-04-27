@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="solvexia_sdk", 
-    version="0.0.2",
+    version="0.0.1",
     author="SolveXia Pty Ltd",
     author_email="support@solvexia.com",
     description="A development kit written in Python to access and work SolveXia resources",
