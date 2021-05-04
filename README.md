@@ -136,13 +136,19 @@ either additional ids, an object instance or file/filepath.
 [Datasteps Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/steps/datastep_schemas.md)  
 [Table Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/tables/tables_schemas.md)  
 
-### Example of a Python Script that Uses the SDK
-A sample python script is included (test.py) for references and to make it easier to understand how to use SolveXia's SDK.
-The included python file undergoes the authentication process, initialisation of classes and then the calling of functions
-within the SDK to interact with the desired objects on the volibear qa environment.  
-Note, this sample file does not currently run due to the lack of an authentication json file containing the apporpriate
-client_id and client_secret.
+### Example of Uploading a File and Downloading Using the Busi.Qa Environment
+```python
+    from solvexia_sdk import api
+    from solvexia_sdk.file import file
 
+    client = api.solvexiaClient("busi.qa")
+    client.get_access_token("auth.json")
+    fileTest = file.file("f-5940022")
+    fileTest.upload_file("uploadFile.csv")
+    response = fileTest.download_file()
+    with open("output.csv", "wb") as f:
+        f.write(response.content)
+```
 
 ### How to push to PyPI
 
