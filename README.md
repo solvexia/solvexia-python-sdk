@@ -33,9 +33,9 @@ An alternative way to install the SDK is to download all the necessary files as 
 ### Creating JSON Authentication File
 
 1. Recall your Client Id and Client Secret credentials that you saved previously.
-2. Store this information in a JSON file with the structure:
+2. Store this information in a JSON file with the structure along with the environment you are using:
 ```python
-{"client_id": clientId, "client_secret": clientSecret}.
+{"client_id": clientId, "client_secret": clientSecret, "env": testingEnv}.
 ```
 3. Save this file in the root directory (directory that contains the solvexia_sdk folder).
 
@@ -49,24 +49,22 @@ the solvexia_client class which contains the access token generation function.
 from solvexia_sdk import api
 ```
 
-We then need to initalise the solvexia_client class by indicating and passing through the qa enviroment we will be using for 
-our calls. This environment should match the one that you used to create your client_id and client_secret.
+We then need to initalise the solvexia_client class by indicating and passing through the JSON file we saved earlier which contains
+the environment, client_secret and client_id.
 
-E.g. If I generated my client_id and client_secret within the volibear qa environment, I would do the following class initialisation:
 
 ```python
-client = api.solvexia_client("volibear.qa")
+client = api.solvexia_client("JSONFileName")
 ```
 
 Note: client is just a variable name that represents the initialised class and can be set to anything you desire.
 
-Once our solvexia_client class has been initialised, we can now generate our access token. This is performed through the 
-getAccessToken function within the solvexia_client class and must have a JSON file containing the client_id and client_secret
-passed through as an argument.
+Once our solvexia_client class has been initialised, we can now generate our access token. Since we have already passed through out
+client_secret and client_id, all we need to do is call the getAccessToken() function.
 
 E.g. Calling the getAccessToken function within the solvexia_client class
 ```python
-client.getAccessToken("JSONFileName")
+client.getAccessToken()
 ```
 
 If no errors are raised, we have now successfully generated our access token and we are free to use all the other functions and
@@ -141,8 +139,8 @@ either additional ids, an object instance or file/filepath.
     from solvexia_sdk import api
     from solvexia_sdk.file import file
 
-    client = api.solvexiaClient("busi.qa")
-    client.get_access_token("auth.json")
+    client = api.solvexiaClient("auth.json")
+    client.get_access_token()
     fileTest = file.file("f-5940022")
     fileTest.upload_file("uploadFile.csv")
     response = fileTest.download_file()
