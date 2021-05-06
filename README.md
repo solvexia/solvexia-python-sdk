@@ -18,7 +18,7 @@ Any application that is intended to access SolveXia Public API must have authori
 ## Install package
 
 ```shell
-pip install git+https://github.com/solvexia/solvexia-python-sdk#egg=solvexia_api
+pip3 install solvexia-sdk
 ```
 
 If you keep to use the latest or any other specific version of the package checkout this repo desired version and run
