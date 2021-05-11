@@ -34,8 +34,13 @@ class process:
         api.status_code_check(response, f"Error creating process run with process_id {self.process_id}")
         return response.json()
 
-    def get_process_run_list(self):
+    def get_process_run_list(self, date_created_start=None, date_created_end=None):
         response = api.api_get(f"processes/{self.process_id}/processruns")
+        params = {
+            'dateCreatedStart': date_created_start,
+            'dateCreatedEnd': date_created_end
+        }
+        response = requests.get(f"{api.base_url}processes/{self.process_id}/processruns", params=params, headers=api.access_token)
         api.status_code_check(response, f"Error getting process run list with process_id {self.process_id}")
         return response.json()
     

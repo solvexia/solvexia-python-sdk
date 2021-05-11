@@ -8,6 +8,10 @@ from solvexia_sdk.table import table
 client = api.solvexiaClient("auth.json")
 client.get_access_token()
 
+processTest = process.process("p-41423")
+response = processTest.get_process_run_list(None, "2021-05-11T03:30:43.297")
+print(response)
+
 '''processTest = process.process("p-37817")
 final_file_list = processTest.get_process_file_list()
 
