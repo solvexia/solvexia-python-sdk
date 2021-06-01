@@ -66,10 +66,9 @@ class file:
         while self.chunk_id <= num_of_chunks:
             upload_chunk_url = api.base_url + f"files/{self.file_id}/uploadsessions/{self.upload_session_id}/chunks/{self.chunk_id}"
             base = os.path.basename(file)
-            print(base)
-            #with open(os.path.splitext(base)[0] + f"_{self.chunk_id}{os.path.splitext(base)[1]}", 'rb') as f:
-            #    response = requests.post(upload_chunk_url, files={file: f}, headers=api.access_token)
-            #api.status_code_check(response, f"Error spliting and uploading file with file_id {self.file_id} and chunkId {self.chunk_id}")
+            with open(os.path.splitext(base)[0] + f"_{self.chunk_id}{os.path.splitext(base)[1]}", 'rb') as f:
+                response = requests.post(upload_chunk_url, files={file: f}, headers=api.access_token)
+            api.status_code_check(response, f"Error spliting and uploading file with file_id {self.file_id} and chunkId {self.chunk_id}")
             self.chunk_id = self.chunk_id + 1
         
     def commit_upload(self, file):
