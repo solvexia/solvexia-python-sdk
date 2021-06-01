@@ -2,7 +2,6 @@ import requests
 import json
 import sys
 
-
 class solvexiaClient: 
     def __init__(self, auth_file):
         with open(auth_file) as json_auth_file:

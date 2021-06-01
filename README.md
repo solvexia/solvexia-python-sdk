@@ -1,7 +1,5 @@
 # SolveXia Process Automation SDK for Python
-
 SolveXia Python SDK exists to help create faster and easier integration with SolveXia APIs. 
-The package is currently under development and will be pushed to the main Python package repository as soon as the first stable version is achieved.
 
 ## Getting started
 
@@ -35,9 +33,12 @@ An alternative way to install the SDK is to download all the necessary files as 
 1. Recall your Client Id and Client Secret credentials that you saved previously.
 2. Store this information in a JSON file with the structure along with the environment you are using:
 ```python
-{"client_id": clientId, "client_secret": clientSecret, "env": testingEnv}.
+{"client_id": clientId, "client_secret": clientSecret, "env": solvexiaEnvPrefix}
 ```
 3. Save this file in the root directory (directory that contains the solvexia_sdk folder).
+
+Note: `solvexiaEnvPrefix` is a prefix of the SolveXia environment you are working with. For example, 
+for https://app.solvexia.com the `solvexiaEnvPrefix` will be `app`.
 
 ### Importing OAuth Function and Generating an Access Token
 SolveXia uses OAuth2.0 as a secure method to generate access tokens for clients so that they can access and use SolveXia's
@@ -134,7 +135,7 @@ either additional ids, an object instance or file/filepath.
 [Datasteps Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/steps/datastep_schemas.md)  
 [Table Objects](https://github.com/solvexia/solvexia-api-docs/blob/master/tables/tables_schemas.md)  
 
-### Example of Uploading a File and Downloading Using the Busi.Qa Environment
+### Example of Uploading and Downloading a File
 ```python
     from solvexia_sdk import api
     from solvexia_sdk.file import file
@@ -157,3 +158,8 @@ either additional ids, an object instance or file/filepath.
 5. You can upload to TestPyPI to ensure everything works using: twine upload --repository testpypi dist/*
 5. Upload the package to the official PyPI using twine: twine upload dist/*
 6. Both times, you will be asked to enter your PyPI username and password
+
+## Issues
+
+Please raise all issues associated with this package [here](https://github.com/solvexia/solvexia-python-sdk/issues). 
+The more information you provide in the description, the faster we are able to address it.
