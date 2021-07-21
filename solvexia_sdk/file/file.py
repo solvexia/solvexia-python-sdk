@@ -74,5 +74,5 @@ class file:
     def commit_upload(self, file):
         response = api.api_post_no_payload(f"files/{self.file_id}/uploadsessions/{self.upload_session_id}/commit")
         api.status_code_check(response, f"Error committing upload for file with file_id {self.file_id}")
-        self.update_file_metadata(file)
+        self.update_file_metadata(os.path.basename(file))
         return response.json()
