@@ -2,6 +2,7 @@ import requests
 import json
 import sys
 from solvexia_sdk import api
+from solvexia_sdk.datasteps import datasteps
 
 class processRuns:
     def __init__(self, process_run_id):
@@ -39,3 +40,14 @@ class processRuns:
         response = api.api_get(f"processruns/{self.process_run_id}/steps")
         api.status_code_check(response, f"Error getting list of data steps of process run with process_run_id {self.process_run_id}")
         return response.json()
+
+    def get_process_run_file_list(self):
+        processRunFileList = []
+        response = self.get_process_run_data_steps_list()
+        for x in response:
+            individualDS = datasteps.dataSteps(x["id"])
+            dsList = individualDS.get_data_step_file_list()
+            for y in dsList:
+                processRunFileList.append(y)
+
+        return processRunFileList
