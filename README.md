@@ -30,8 +30,8 @@ An alternative way to install the SDK is to download all the necessary files as 
 
 ### Creating JSON Authentication File
 
-1. Recall your Client Id and Client Secret credentials that you saved previously.
-2. Store this information in a JSON file with the structure along with the environment you are using:
+1. Recall your previously saved client_id and client_secret
+2. Store this information in a JSON file with the following structure along with the environment you are using:
 ```python
 {"client_id": clientId, "client_secret": clientSecret, "env": solvexiaEnvPrefix}
 ```
@@ -42,33 +42,31 @@ for https://app.solvexia.com the `solvexiaEnvPrefix` will be `app`.
 
 ### Importing OAuth Function and Generating an Access Token
 SolveXia uses OAuth2.0 as a secure method to generate access tokens for clients so that they can access and use SolveXia's
-API calls. Therefore, before we can use any of the functions within the SDK, we must first obtain our access token using
-our client_id and client_secret. Using the JSON file we created earlier, we can import the api.py file as follows to access 
-the solvexia_client class which contains the access token generation function.
+API calls. Therefore, before we can use any of the functions within the SDK, we must first generate an access token using
+our client_id and client_secret. By using the JSON file we created earlier, we can import the api.py file as shown below
+to access the solvexia_client class which contains the access token generation functions.
 
 ```python
 from solvexia_sdk import api
 ```
 
-We then need to initalise the solvexia_client class by indicating and passing through the JSON file we saved earlier which contains
-the environment, client_secret and client_id.
+We then need to initalise the solvexia_client class by passing the JSON file we created earlier.
 
 
 ```python
-client = api.solvexia_client("JSONFileName")
+client = api.solvexiaClient("JSONFileName")
 ```
 
-Note: client is just a variable name that represents the initialised class and can be set to anything you desire.
+Note: client is just a variable name that represents the initialised solvexiaClient class.
 
-Once our solvexia_client class has been initialised, we can now generate our access token. Since we have already passed through out
-client_secret and client_id, all we need to do is call the getAccessToken() function.
+Once our solvexiaClient class has been initialised, we can now generate our access token by calling the get_access_token function.
 
 E.g. Calling the getAccessToken function within the solvexia_client class
 ```python
-client.getAccessToken()
+client.get_access_token()
 ```
 
-If no errors are raised, we have now successfully generated our access token and we are free to use all the other functions and
+If no errors are raised, we have now successfully generated our access token and are free to use all the other functions and
 API calls within this SDK until the token expires.
 
 ### Importing API SDK Files
@@ -104,7 +102,7 @@ fileClass = file.file("f-5922731")
 Now that the class has been initialised, we are free to access any of the functions within that class. The generic
 code to do this is as follows:
 ```python
-    retObj = classNameVar.classFunction(anyArgs)
+    retObj = classNameVar.class_function(anyArgs)
 ```
 Since most of the functions within this SDK will return a JSON object, generally we want to store that in a variable
 so that we can access this information (retObj).
@@ -112,7 +110,7 @@ so that we can access this information (retObj).
 E.g. Calling the getFileMetadata function with an initialised file class called fileClass and storing the response in a 
 variable called response.
 ```python
-    response = fileClass.getFileMetadata()
+    response = fileClass.get_file_metadata()
 ```
 
 Reminder: Ensure that for any of the object classes, we must always initialise the class first before we can call 
@@ -121,8 +119,7 @@ any functions from within the class.
 ### Return Value of API Functions
 A majority of the API call functions within this SDK will return a JSON object specific to the object. These JSON objects
 and their format are explained in depth in SolveXia's API docs.
-An alternative to see the structure of the returned JSON object is to print the JSON object that is returned by the function
-to stdout.
+An alternative to see the structure of the returned JSON object is to print the JSON object that is returned to stdout.
 
 ### Additional Arguments for Functions
 Some API function calls within this SDK have additional arguments that must be passed through. In most cases, these are 
@@ -148,6 +145,35 @@ either additional ids, an object instance or file/filepath.
     with open("output.csv", "wb") as f:
         f.write(response.content)
 ```
+
+### Example of Uploading a File Using 25MB Chunks and Downloading
+```python
+    from solvexia_sdk import api
+    from solvexia_sdk.file import file
+
+    client = api.solvexiaClient("auth.json")
+    client.get_access_token()
+    fileTest = file.file("f-5940022")
+    fileTest.upload_file_by_chunks(25000000, "uploadFile.csv")
+    response = fileTest.download_file()
+    with open("output.csv", "wb") as f:
+        f.write(response.content)
+```
+
+### Example of Creating a Process Run and Running it
+```python
+    from solvexia_sdk import api
+    from solvexia_sdk.process import process
+    from solvexia_sdk.processrun import processRuns
+
+    client = api.solvexiaClient("auth.json")
+    client.get_access_token()
+    processTest = process.process("p-37817")
+    response = processTest.create_process_run("newProcessRun")
+    processRunTest = processrun.processRuns(response["id"])
+    processRunTest.start_process_run()
+
+```  
 
 ### How to push to PyPI
 
