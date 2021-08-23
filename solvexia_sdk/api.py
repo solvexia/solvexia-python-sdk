@@ -35,7 +35,7 @@ def status_code_check(response, error_message):
         sys.exit()
 
 def api_post(url_path, payload):
-    headers = access_token
+    headers = access_token.copy()
     headers['Content-Type'] = 'application/json'
     response = requests.post(base_url + url_path, data=json.dumps(payload), headers=headers)
     return response
