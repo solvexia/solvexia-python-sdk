@@ -45,7 +45,7 @@ class file:
     # The following function does all three in one function whilst the individual functions for each of the above steps
     # are located further below.
 
-    def upload_file_by_chunks(self, chunk_size, file):
+    def upload_file_by_chunks(self, file, chunk_size=25000000):
         self.start_upload_session()
         self.upload_chunk(chunk_size, file)
         self.commit_upload(file)
@@ -56,7 +56,7 @@ class file:
         self.upload_session_id = response.json()['uploadsessionid']
         self.chunk_id = 1
 
-    def upload_chunk(self, chunk_size, file):
+    def upload_chunk(self, file, chunk_size=25000000):
         file_size = os.stat(file).st_size
         num_of_chunks = math.ceil(file_size/chunk_size)
 
