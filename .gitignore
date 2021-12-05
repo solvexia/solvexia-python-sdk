@@ -2,3 +2,4 @@ build/
 dist/
 solvexia_sdk.egg-info
 .DS_Store
+__pycache__/
