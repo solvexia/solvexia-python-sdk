@@ -1,12 +1,12 @@
 import requests
 from solvexia_sdk import api
 
-class user:
+class userGroup:
     def __init__(self, usergroup_id):
         self.usergroup_id = usergroup_id
     
     def get_usergroup_list(self):
-        response = requests.get(api.base_url + "userGroups", headers=api.access_token)
+        response = api.api_get("userGroups")
         api.status_code_check(response, "Error getting user group list")
         return response.json()
     

@@ -6,7 +6,7 @@ class user:
         self.user_id = user_id
     
     def get_user_list(self):
-        response = requests.get(api.base_url + "users", headers=api.access_token)
+        response = api.api_get("users")
         api.status_code_check(response, "Error getting user list")
         return response.json()
     
