@@ -75,11 +75,12 @@ class file:
         
     def commit_upload(self, file, num_of_chunks):
         response = api.api_post_no_payload(f"files/{self.file_id}/uploadsessions/{self.upload_session_id}/commit")
+        base = os.path.basename(file)
         api.status_code_check(response, f"Error committing upload for file with file_id {self.file_id}")
-        self.update_file_metadata(file)
+        self.update_file_metadata(base)
 
         file_index = 1
-        base = os.path.basename(file)
+        
         while file_index <= num_of_chunks:
             print(os.path.splitext(base)[0] + f"_{file_index}{os.path.splitext(base)[1]}")
             os.remove(os.path.splitext(base)[0] + f"_{file_index}{os.path.splitext(base)[1]}")
