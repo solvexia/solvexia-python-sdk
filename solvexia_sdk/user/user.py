@@ -37,5 +37,5 @@ class user:
         return response.json()
     
     def delete_permission(self, resource_id):
-        response = api.api_delete(api.base_url + f"users/{self.user_id}/permissions/{resource_id}")
+        response = api.api_delete(f"users/{self.user_id}/permissions/{resource_id}")
         api.status_code_check(response, f"Error deleting user's permissions with user_id {self.user_id} for resource_id {resource_id}")
