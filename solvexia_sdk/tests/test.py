@@ -4,13 +4,36 @@ from solvexia_sdk.process import process
 from solvexia_sdk.processrun import processrun
 from solvexia_sdk.datasteps import datasteps
 from solvexia_sdk.table import table
+from hashlib import md5
 
-client = api.solvexiaClient("auth.json")
-client.get_access_token()
 
-processTest = process.process("p-41423")
-response = processTest.get_process_run_list(None, "2021-05-11T03:30:43.297")
-print(response)
+def main():
+
+    client = api.solvexiaClient("auth.json")
+    client.get_access_token()
+
+    fileTest = file.file("f-35410")
+    print("Calculating initial MD5")
+    original_md5 = calculate_md5("test.csv")
+    print("Uploading chunks")
+    fileTest.upload_file_by_chunks(25000000, "test.csv")
+    print("Finished uploading. Now downloading")
+    response = fileTest.download_file()
+    with open("test5.csv", "wb") as f:
+        f.write(response.content)
+    print("Calculating returned MD5")
+    returned_md5 = calculate_md5("test5.csv")
+    assert(original_md5 == returned_md5)
+
+
+def calculate_md5(filename):
+    with open(filename) as open_file:
+        data = open_file.read().encode('utf-8')
+        created_md5 = md5(data).hexdigest()
+    return created_md5
+
+if __name__ == "__main__":
+    main()
 
 '''processTest = process.process("p-37817")
 final_file_list = processTest.get_process_file_list()

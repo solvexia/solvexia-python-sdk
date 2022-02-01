@@ -45,10 +45,10 @@ class file:
     # The following function does all three in one function whilst the individual functions for each of the above steps
     # are located further below.
 
-    def upload_file_by_chunks(self, chunk_size, file):
+    def upload_file_by_chunks(self, file, chunk_size=25000000):
         self.start_upload_session()
-        self.upload_chunk(chunk_size, file)
-        self.commit_upload(file)
+        num_of_chunks = self.upload_chunk(chunk_size, file)
+        self.commit_upload(file, num_of_chunks)
 
     def start_upload_session(self):
         response = api.api_post_no_payload(f"files/{self.file_id}/uploadsessions")
@@ -56,7 +56,7 @@ class file:
         self.upload_session_id = response.json()['uploadsessionid']
         self.chunk_id = 1
 
-    def upload_chunk(self, chunk_size, file):
+    def upload_chunk(self, file, chunk_size=25000000):
         file_size = os.stat(file).st_size
         num_of_chunks = math.ceil(file_size/chunk_size)
 
@@ -70,9 +70,20 @@ class file:
                 response = requests.post(upload_chunk_url, files={file: f}, headers=api.access_token)
             api.status_code_check(response, f"Error spliting and uploading file with file_id {self.file_id} and chunkId {self.chunk_id}")
             self.chunk_id = self.chunk_id + 1
+
+        return num_of_chunks
         
-    def commit_upload(self, file):
+    def commit_upload(self, file, num_of_chunks):
         response = api.api_post_no_payload(f"files/{self.file_id}/uploadsessions/{self.upload_session_id}/commit")
+        base = os.path.basename(file)
         api.status_code_check(response, f"Error committing upload for file with file_id {self.file_id}")
-        self.update_file_metadata(file)
+        self.update_file_metadata(base)
+
+        file_index = 1
+        
+        while file_index <= num_of_chunks:
+            print(os.path.splitext(base)[0] + f"_{file_index}{os.path.splitext(base)[1]}")
+            os.remove(os.path.splitext(base)[0] + f"_{file_index}{os.path.splitext(base)[1]}")
+            file_index = file_index + 1
+
         return response.json()
