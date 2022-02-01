@@ -34,5 +34,5 @@ class userGroup:
         return response.json()
     
     def delete_permission(self, resource_id):
-        response = requests.delete(api.base_url + f"userGroups/{self.usergroup_id}/permissions/{resource_id}", headers = api.access_token)
+        response = api.api_delete(f"userGroups/{self.usergroup_id}/permissions/{resource_id}")
         api.status_code_check(response, f"Error deleting user group permissions with usergroup_id {self.usergroup_id} for resource_id {resource_id}")
