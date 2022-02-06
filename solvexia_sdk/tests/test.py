@@ -102,4 +102,20 @@ tableTest.get_table_columns_list()
 tableTest.update_column(payload, "HelloThere5")
 tableTest.delete_column("HelloThere5")
 tableTest.get_table_columns_list()
-tableTest.create_column(payload)'''
+tableTest.create_column(payload)
+
+userTest = user.user("u-1225")
+userTest.get_user_list()
+userTest.get_user()
+userTest.get_permissions()
+userTest.update_permission("p-4250", "editor")
+userTest.delete_permission("p-4250")
+userTest.disable_user()
+
+userGroupTest = usergroup.userGroup("ug-1248")
+userGroupTest.get_usergroup()
+userGroupTest.get_usergroup_list()
+userGroupTest.get_members()
+userGroupTest.get_permissions()
+userGroupTest.delete_permission("p-1217")
+userGroupTest.update_permission("p-1217", "editor")'''

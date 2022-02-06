@@ -47,3 +47,7 @@ def api_post_no_payload(url_path):
 def api_get(url_path):
     response = requests.get(base_url + url_path, headers=access_token)
     return response
+
+def api_delete(url_path):
+    response = requests.delete(base_url + url_path, headers=access_token)
+    return response
