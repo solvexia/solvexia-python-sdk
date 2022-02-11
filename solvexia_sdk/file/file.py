@@ -47,7 +47,7 @@ class file:
 
     def upload_file_by_chunks(self, file, chunk_size=25000000):
         self.start_upload_session()
-        num_of_chunks = self.upload_chunk(chunk_size, file)
+        num_of_chunks = self.upload_chunk(file, chunk_size)
         self.commit_upload(file, num_of_chunks)
 
     def start_upload_session(self):
