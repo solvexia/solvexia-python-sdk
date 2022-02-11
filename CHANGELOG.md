@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1
+- Fix file upload chunk.
+
 ## 1.1.0
 - Added user and user group apis
 
