@@ -1,4 +1,3 @@
-from time import time
 import requests
 from solvexia_sdk import api
 
@@ -60,7 +59,6 @@ class user:
             payload["timezone"] = timezone
         if userRole is not None:
             payload["userRole"] = userRole
-        print(payload)
         response = api.api_post(f"users/{self.user_id}", payload)
         api.status_code_check(response, f"Error updating user with user_id {self.user_id}")
         return response.json()
@@ -78,7 +76,7 @@ class user:
         response = api.api_post(f"users/{self.user_id}/permissions", payload)
         api.status_code_check(response, f"Error adding user's permissions with user_id {self.user_id} for resource_id {resource_id}")
         return response.json()
-        
+
     def update_permission(self, resource_id, role):
         payload = {
             'role': role

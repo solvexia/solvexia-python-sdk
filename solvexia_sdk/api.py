@@ -23,8 +23,7 @@ class solvexiaClient:
         headers = {'Content-Type': 'application/json'}
         response = requests.post(f"https://{self.env}.solvexia.com/oauth/token", data=json.dumps(payload), headers=headers)
         if response.status_code != 200:
-            print("Error generating an Access Token via Client Credential Flow")
-            print(response.json()['error'])
+            print("Error generating an Access Token via Client Credential Flow. " + "response.json()['error']")
             sys.exit()
         self.access_token = response.json()['access_token']
         self.authorisation = {'Authorization': 'Bearer ' + self.access_token}
@@ -32,7 +31,6 @@ class solvexiaClient:
         access_token = self.authorisation
 
 def status_code_check(response, error_message):
-
     if response.status_code != 200:
         print(error_message)
         try:
