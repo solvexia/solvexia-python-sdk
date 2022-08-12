@@ -17,7 +17,7 @@ class user:
 
     def get_groups_user_belong_to(self):
         response = api.api_get(f"users/{self.user_id}/usergroups")
-        api.status_code_check(response, f"Error getting user group th user belong to with user_id {self.user_id}")
+        api.status_code_check(response, f"Error getting user group that a user belong to with user_id {self.user_id}")
         return response.json()
 
     def create_user(self, email, firstName, lastName, password, userRole, timezone):
