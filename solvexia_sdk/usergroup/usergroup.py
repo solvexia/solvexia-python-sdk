@@ -25,12 +25,12 @@ class userGroup:
             "id": user_id
         }
         response = api.api_post(f"usergroups/{self.usergroup_id}/users", payload)
-        api.status_code_check(response, f"Error adding user to a user group with usergroup_id {self.usergroup_id}")
+        api.status_code_check(response, f"Error adding user {user_id} to a user group with usergroup_id {self.usergroup_id}")
         return response.json()
 
     def remove_user(self, user_id):
         response = api.api_delete(f"usergroups/{self.usergroup_id}/users/{user_id}")
-        api.status_code_check(response, f"Error removing user from a user group with usergroup_id {self.usergroup_id}")
+        api.status_code_check(response, f"Error removing user {user_id} from a user group with usergroup_id {self.usergroup_id}")
 
     def get_permissions(self):
         response = api.api_get(f"usergroups/{self.usergroup_id}/permissions")
