@@ -9,6 +9,7 @@ class solvexiaClient:
         self.env = payload['env']
         self.client_id = payload['client_id']
         self.client_secret = payload['client_secret']
+        self.client_scope = payload['scope']
         global base_url
         base_url = f"https://{self.env}.solvexia.com/api/v1/"
 
@@ -16,12 +17,13 @@ class solvexiaClient:
         payload = {
             'client_id': self.client_id,
             'client_secret': self.client_secret,
-            'grant_type': 'client_credentials'
+            'grant_type': 'client_credentials',
+            'scope': self.client_scope
         }
         headers = {'Content-Type': 'application/json'}
         response = requests.post(f"https://{self.env}.solvexia.com/oauth/token", data=json.dumps(payload), headers=headers)
         if response.status_code != 200:
-            print("Error generating an Access Token via Client Credential Flow")
+            print("Error generating an Access Token via Client Credential Flow. " + "response.json()['error']")
             sys.exit()
         self.access_token = response.json()['access_token']
         self.authorisation = {'Authorization': 'Bearer ' + self.access_token}
@@ -31,7 +33,10 @@ class solvexiaClient:
 def status_code_check(response, error_message):
     if response.status_code != 200:
         print(error_message)
-        print(response.json()['message'])
+        try:
+            print(response.json()['message'])
+        except json.decoder.JSONDecodeError:
+            print("API not found")
         sys.exit()
 
 def api_post(url_path, payload):
