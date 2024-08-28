@@ -91,7 +91,7 @@ class functions. Make sure to take note of what variable we need to pass in duri
 arguments (besides self) within the class __init__ function.
 To do this, we can follow the following general syntax:
 ```python
-    classNameVar = fileName.className(anyArgs)
+classNameVar = fileName.className(anyArgs)
 ```
 E.g. To initialise the file class within file.py, we need to pass in a fileId.
 ```python
@@ -102,7 +102,7 @@ fileClass = file.file("f-5922731")
 Now that the class has been initialised, we are free to access any of the functions within that class. The generic
 code to do this is as follows:
 ```python
-    retObj = classNameVar.class_function(anyArgs)
+retObj = classNameVar.class_function(anyArgs)
 ```
 Since most of the functions within this SDK will return a JSON object, generally we want to store that in a variable
 so that we can access this information (retObj).
@@ -110,7 +110,7 @@ so that we can access this information (retObj).
 E.g. Calling the getFileMetadata function with an initialised file class called fileClass and storing the response in a 
 variable called response.
 ```python
-    response = fileClass.get_file_metadata()
+response = fileClass.get_file_metadata()
 ```
 
 Reminder: Ensure that for any of the object classes, we must always initialise the class first before we can call 
@@ -134,44 +134,44 @@ either additional ids, an object instance or file/filepath.
 
 ### Example of Uploading and Downloading a File
 ```python
-    from solvexia_sdk import api
-    from solvexia_sdk.file import file
+from solvexia_sdk import api
+from solvexia_sdk.file import file
 
-    client = api.solvexiaClient("auth.json")
-    client.get_access_token()
-    fileTest = file.file("f-5940022")
-    fileTest.upload_file("uploadFile.csv")
-    response = fileTest.download_file()
-    with open("output.csv", "wb") as f:
-        f.write(response.content)
+client = api.solvexiaClient("auth.json")
+client.get_access_token()
+fileTest = file.file("f-5940022")
+fileTest.upload_file("uploadFile.csv")
+response = fileTest.download_file()
+with open("output.csv", "wb") as f:
+    f.write(response.content)
 ```
 
 ### Example of Uploading a File Using 25MB Chunks and Downloading
 ```python
-    from solvexia_sdk import api
-    from solvexia_sdk.file import file
+from solvexia_sdk import api
+from solvexia_sdk.file import file
 
-    client = api.solvexiaClient("auth.json")
-    client.get_access_token()
-    fileTest = file.file("f-5940022")
-    fileTest.upload_file_by_chunks(25000000, "uploadFile.csv")
-    response = fileTest.download_file()
-    with open("output.csv", "wb") as f:
-        f.write(response.content)
+client = api.solvexiaClient("auth.json")
+client.get_access_token()
+fileTest = file.file("f-5940022")
+fileTest.upload_file_by_chunks(25000000, "uploadFile.csv")
+response = fileTest.download_file()
+with open("output.csv", "wb") as f:
+    f.write(response.content)
 ```
 
 ### Example of Creating a Process Run and Running it
 ```python
-    from solvexia_sdk import api
-    from solvexia_sdk.process import process
-    from solvexia_sdk.processrun import processRuns
+from solvexia_sdk import api
+from solvexia_sdk.process import process
+from solvexia_sdk.processrun import processrun
 
-    client = api.solvexiaClient("auth.json")
-    client.get_access_token()
-    processTest = process.process("p-37817")
-    response = processTest.create_process_run("newProcessRun")
-    processRunTest = processrun.processRuns(response["id"])
-    processRunTest.start_process_run()
+client = api.solvexiaClient("auth.json")
+client.get_access_token()
+processTest = process.process("p-37817")
+response = processTest.create_process_run("newProcessRun")
+processRunTest = processrun.processRuns(response["id"])
+processRunTest.start_process_run()
 
 ```  
 
