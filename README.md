@@ -33,7 +33,7 @@ An alternative way to install the SDK is to download all the necessary files as 
 1. Recall your previously saved client_id and client_secret
 2. Store this information in a JSON file with the following structure along with the environment you are using:
 ```python
-{"client_id": clientId, "client_secret": clientSecret, "env": solvexiaEnvPrefix}
+{"client_id": clientId, "client_secret": clientSecret, "env": solvexiaEnvPrefix, "scope": scopes}
 ```
 3. Save this file in the root directory (directory that contains the solvexia_sdk folder).
 
