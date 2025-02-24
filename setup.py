@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="solvexia_sdk", 
-    version="1.2.0",
+    version="1.2.1",
     author="SolveXia Pty Ltd",
     author_email="support@solvexia.com",
     description="A development kit written in Python to access and work with SolveXia resources",
@@ -15,7 +15,7 @@ setuptools.setup(
     packages=["solvexia_sdk", "solvexia_sdk.file", "solvexia_sdk.process", "solvexia_sdk.datasteps", "solvexia_sdk.processrun",
     "solvexia_sdk.table", "solvexia_sdk.user", "solvexia_sdk.usergroup"],
     install_requires=[
-        'filesplit>=3.0.2',
+        'filesplit>=4.1.0',
         'readme-renderer>=29.0',
         'requests>=2.25.1',
         'requests-toolbelt>=0.9.1',

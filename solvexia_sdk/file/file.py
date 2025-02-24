@@ -3,7 +3,7 @@ import json
 import sys
 import math
 import os
-from fsplit.filesplit import Filesplit
+from filesplit.split import Split
 from solvexia_sdk import api
 
 class file:
@@ -60,7 +60,7 @@ class file:
         file_size = os.stat(file).st_size
         num_of_chunks = math.ceil(file_size/chunk_size)
 
-        fs = Filesplit()
+        fs = Split()
         fs.split(file=file, split_size=chunk_size)
 
         while self.chunk_id <= num_of_chunks:
