@@ -5,6 +5,7 @@ from solvexia_sdk.processrun import processrun
 from solvexia_sdk.datasteps import datasteps
 from solvexia_sdk.table import table
 from hashlib import md5
+import os
 
 
 def main():
@@ -24,21 +25,25 @@ def main():
     print(test_list)
 
     fileTest = file.file("f-7400")
-    print("Calculating initial MD5")
+    print("Calculating original file's MD5")
     original_md5 = calculate_md5("test14.xlsx")
     print("Uploading chunks")
-    fileTest.upload_file_by_chunks("test14.xlsx", 25000000)
+    fileTest.upload_file_by_chunks("test14.xlsx", 4000000)
+
     print("Finished uploading. Now downloading")
     response = fileTest.download_file()
-    with open("downtest14.xlsx", "wb") as f:
+    download_file = "downtest14.xlsx"
+    with open(download_file, "wb") as f:
         f.write(response.content)
-    print("Calculating returned MD5")
-    returned_md5 = calculate_md5("downtest14.xlsx")
+    print("Calculating returned file's MD5")
+    returned_md5 = calculate_md5(download_file)
     
     if original_md5 == returned_md5:
         print("MD5s match")
     else:
         print("MD5s do not match")
+
+    os.remove(download_file)
 
 
 def calculate_md5(filename):
