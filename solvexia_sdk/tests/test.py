@@ -23,11 +23,27 @@ def main():
         
     print(test_list)
 
+    fileTest = file.file("f-7400")
+    print("Calculating initial MD5")
+    original_md5 = calculate_md5("test14.xlsx")
+    print("Uploading chunks")
+    fileTest.upload_file_by_chunks("test14.xlsx", 25000000)
+    print("Finished uploading. Now downloading")
+    response = fileTest.download_file()
+    with open("downtest14.xlsx", "wb") as f:
+        f.write(response.content)
+    print("Calculating returned MD5")
+    returned_md5 = calculate_md5("downtest14.xlsx")
+    
+    if original_md5 == returned_md5:
+        print("MD5s match")
+    else:
+        print("MD5s do not match")
 
 
 def calculate_md5(filename):
-    with open(filename) as open_file:
-        data = open_file.read().encode('utf-8')
+    with open(filename, "rb") as open_file:
+        data = open_file.read()
         created_md5 = md5(data).hexdigest()
     return created_md5
 
@@ -36,18 +52,7 @@ if __name__ == "__main__":
 
 
 
-# fileTest = file.file("f-35410")
-# print("Calculating initial MD5")
-# original_md5 = calculate_md5("test.csv")
-# print("Uploading chunks")
-# fileTest.upload_file_by_chunks(25000000, "test.csv")
-# print("Finished uploading. Now downloading")
-# response = fileTest.download_file()
-# with open("test5.csv", "wb") as f:
-#     f.write(response.content)
-# print("Calculating returned MD5")
-# returned_md5 = calculate_md5("test5.csv")
-# assert(original_md5 == returned_md5)
+
 
 # fileTest = file.file("f-5940022")
 # fileTest.get_file_metadata() 
