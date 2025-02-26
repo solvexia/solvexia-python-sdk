@@ -3,7 +3,7 @@ import json
 import sys
 import math
 import os
-from fsplit.filesplit import Filesplit
+from filesplit.split import Split
 from solvexia_sdk import api
 
 class file:
@@ -60,14 +60,21 @@ class file:
         file_size = os.stat(file).st_size
         num_of_chunks = math.ceil(file_size/chunk_size)
 
-        fs = Filesplit()
-        fs.split(file=file, split_size=chunk_size)
+        output_dir = os.getcwd()  # Use the current working directory as the output directory
+        fs = Split(file, output_dir)
+        fs.bysize(chunk_size)
 
         while self.chunk_id <= num_of_chunks:
             upload_chunk_url = api.base_url + f"files/{self.file_id}/uploadsessions/{self.upload_session_id}/chunks/{self.chunk_id}"
             base = os.path.basename(file)
-            with open(os.path.splitext(base)[0] + f"_{self.chunk_id}{os.path.splitext(base)[1]}", 'rb') as f:
-                response = requests.post(upload_chunk_url, files={file: f}, headers=api.access_token)
+            # The chunk file path is the path to the chunk file that was created by the filesplit library. 
+            # And we follow the naming convention of the library which is as follows:
+            # chunk_id is zero-padded to 4 digits. eg: <filename>_0001.<extension>
+            chunk_file_path = os.path.join(output_dir, os.path.splitext(base)[0] + f"_{self.chunk_id:04d}" + os.path.splitext(base)[1])
+            
+            with open(chunk_file_path, 'rb') as f:
+                response = requests.post(upload_chunk_url, files={"file": f}, headers=api.access_token)
+
             api.status_code_check(response, f"Error spliting and uploading file with file_id {self.file_id} and chunkId {self.chunk_id}")
             self.chunk_id = self.chunk_id + 1
 
@@ -82,8 +89,7 @@ class file:
         file_index = 1
         
         while file_index <= num_of_chunks:
-            print(os.path.splitext(base)[0] + f"_{file_index}{os.path.splitext(base)[1]}")
-            os.remove(os.path.splitext(base)[0] + f"_{file_index}{os.path.splitext(base)[1]}")
+            os.remove(os.path.splitext(base)[0] + f"_{file_index:04d}{os.path.splitext(base)[1]}")
             file_index = file_index + 1
 
         return response.json()
