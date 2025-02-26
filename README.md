@@ -12,6 +12,7 @@ Any application that is intended to access SolveXia Public API must have authori
 3. Specify the name and callback URL. Click "Create application".
 4. If the creation is successful you will see Client Id and Client Secret credentials generated.
 5. Copy credentials and store them safely. You will not be able to see Client Secret again unless you generate a new one.
+6. Scopes are needed to be set up. To read more about scopes please see and the link to the documentation in the [solvexia-api-docs](https://github.com/solvexia/solvexia-api-docs) repo.
 
 ## Install package
 
@@ -30,7 +31,7 @@ An alternative way to install the SDK is to download all the necessary files as 
 
 ### Creating JSON Authentication File
 
-1. Recall your previously saved client_id and client_secret
+1. Recall your previously saved client_id, client_secret and scopes
 2. Store this information in a JSON file with the following structure along with the environment you are using:
 ```python
 {"client_id": clientId, "client_secret": clientSecret, "env": solvexiaEnvPrefix, "scope": scopes}
