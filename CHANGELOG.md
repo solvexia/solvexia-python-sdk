@@ -1,5 +1,12 @@
 # Changelog
 
+# 1.3.0
+- Updated version and usage of the filesplit package
+- Updated README.md with information about scopes and the license
+- Updated License to GNU General Public License v3.0
+- Added support for latest API endpoints to restart a process run from a step and get a step run status
+- Updated cancel and start process run methods to use new API endpoints
+
 ## 1.2.0
 - Added support for user and usergroup APIs
 - Added support of scopes

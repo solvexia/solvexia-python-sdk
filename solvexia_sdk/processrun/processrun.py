@@ -14,22 +14,19 @@ class processRuns:
         return response.json()
     
     def start_process_run(self):
-        payload = {
-            'request': 'ProcessRun_StartRq',
-            'processRunId': self.process_run_id
-        }
-        response = api.api_post("requests", payload)
+        response = api.api_get(f"processruns/{self.process_run_id}/start")
         api.status_code_check(response, f"Error starting process run with process_run_id {self.process_run_id}")
         return response.json()
 
     def cancel_process_run(self):
-        payload = {
-            'request': 'ProcessRun_CancelRq',
-            'processRunId': self.process_run_id
-        }
-        response = api.api_post("requests", payload)
+        response = api.api_get(f"processruns/{self.process_run_id}/cancel")
         api.status_code_check(response, f"Error cancelling process run with process_run_id {self.process_run_id}")
         return response.json()
+
+    def restart_process_run_from_step(self, step_id):
+        response = api.api_get(f"processruns/{self.process_run_id}/steps/{step_id}/restartfromhere")
+        api.status_code_check(response, f"Error restarting process run with process_run_id {self.process_run_id} from step with step_id {step_id}")
+        return response.json()    
 
     def get_process_run_status(self):
         response = api.api_get(f"processruns/{self.process_run_id}/runstatus")
@@ -39,6 +36,11 @@ class processRuns:
     def get_process_run_data_steps_list(self):
         response = api.api_get(f"processruns/{self.process_run_id}/steps")
         api.status_code_check(response, f"Error getting list of data steps of process run with process_run_id {self.process_run_id}")
+        return response.json()
+
+    def get_process_run_step_runstatus(self, step_id):
+        response = api.api_get(f"processruns/{self.process_run_id}/steps/{step_id}/runstatus")
+        api.status_code_check(response, f"Error getting run status for step with step_id {step_id} of a process run with process_run_id {self.process_run_id}")
         return response.json()
 
     def get_process_run_file_list(self):
