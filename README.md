@@ -1,5 +1,5 @@
 # SolveXia Process Automation SDK for Python
-SolveXia Python SDK exists to help create faster and easier integration with SolveXia APIs. 
+[SolveXia Python SDK](https://pypi.org/project/solvexia-sdk/) exists to help create faster and easier integration with SolveXia APIs. 
 
 ## Getting started
 
@@ -179,14 +179,18 @@ processRunTest.start_process_run()
 ### How to push to PyPI
 
 1. Ensure that all the packages you wish to include are included in the packages line in the setup.py file
-2. Update the version number in the setup.py if package has already been upload to PyPI before and you just wish to update it
-3. Install twine using pip3 install twine
-4. Build the package by running the command: python3 setup.py sdist bdist_wheel
-5. You can upload to TestPyPI to ensure everything works using: twine upload --repository testpypi dist/*
-5. Upload the package to the official PyPI using twine: twine upload dist/*
+2. Update the version number in the setup.py if package has already been uploaded to PyPI before and you just wish to update it
+3. Install twine using`pip3 install twine`
+4. Build the package by running the command: `python3 setup.py sdist bdist_wheel`
+5. You can upload to TestPyPI to ensure everything works using: `twine upload --repository testpypi dist/*`
+5. Upload the package to the official PyPI using twine: `twine upload dist/*`
 6. Both times, you will be asked to enter your PyPI username and password
 
 ## Issues
 
 Please raise all issues associated with this package [here](https://github.com/solvexia/solvexia-python-sdk/issues). 
 The more information you provide in the description, the faster we are able to address it.
+
+## License
+
+GNU General Public License v3.0 or later.
