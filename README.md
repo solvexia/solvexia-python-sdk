@@ -180,7 +180,7 @@ processRunTest.start_process_run()
 
 1. Ensure that all the packages you wish to include are included in the packages line in the setup.py file
 2. Update the version number in the setup.py if package has already been uploaded to PyPI before and you just wish to update it
-3. Install twine using`pip3 install twine`
+3. Install twine using `pip3 install twine`
 4. Build the package by running the command: `python3 setup.py sdist bdist_wheel`
 5. You can upload to TestPyPI to ensure everything works using: `twine upload --repository testpypi dist/*`
 5. Upload the package to the official PyPI using twine: `twine upload dist/*`
