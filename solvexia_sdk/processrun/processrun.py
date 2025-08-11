@@ -14,17 +14,17 @@ class processRuns:
         return response.json()
     
     def start_process_run(self):
-        response = api.api_get(f"processruns/{self.process_run_id}/start")
+        response = api.api_post_no_payload(f"processruns/{self.process_run_id}/start")
         api.status_code_check(response, f"Error starting process run with process_run_id {self.process_run_id}")
         return response.json()
 
     def cancel_process_run(self):
-        response = api.api_get(f"processruns/{self.process_run_id}/cancel")
+        response = api.api_post_no_payload(f"processruns/{self.process_run_id}/cancel")
         api.status_code_check(response, f"Error cancelling process run with process_run_id {self.process_run_id}")
         return response.json()
 
     def restart_process_run_from_step(self, step_id):
-        response = api.api_get(f"processruns/{self.process_run_id}/steps/{step_id}/restartfromhere")
+        response = api.api_post_no_payload(f"processruns/{self.process_run_id}/steps/{step_id}/restartfromhere")
         api.status_code_check(response, f"Error restarting process run with process_run_id {self.process_run_id} from step with step_id {step_id}")
         return response.json()    
 
