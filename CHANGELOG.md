@@ -1,6 +1,9 @@
 # Changelog
 
-# 1.3.0
+## 1.3.1
+- Fix processrun.py
+
+## 1.3.0
 - Updated version and usage of the filesplit package
 - Updated README.md with information about scopes and the license
 - Updated License to GNU General Public License v3.0
