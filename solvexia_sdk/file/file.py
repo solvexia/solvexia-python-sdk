@@ -32,7 +32,7 @@ class file:
 
     def download_file(self):
         download_file_url = api.base_url + f"files/{self.file_id}"
-        headers = api.access_token
+        headers = api.access_token.copy()
         headers['Content-Type'] = 'application/octet-stream'
         response = requests.get(download_file_url, headers=headers)
         api.status_code_check(response, f"Error downloading file with file_id {self.file_id}")
