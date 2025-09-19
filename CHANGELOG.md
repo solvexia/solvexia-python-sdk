@@ -1,5 +1,8 @@
 # Changelog
 
+# 1.3.1
+- Fixed header contamination in download file content-type
+
 # 1.3.0
 - Updated version and usage of the filesplit package
 - Updated README.md with information about scopes and the license
