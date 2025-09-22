@@ -1,7 +1,10 @@
 # Changelog
 
-# 1.3.1
+# 1.3.2
 - Fixed header contamination in download file content-type
+
+## 1.3.1
+- Fix processrun.py
 
 # 1.3.0
 - Updated version and usage of the filesplit package
